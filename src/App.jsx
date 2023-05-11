@@ -5,6 +5,7 @@ import { BsFillGrid1X2Fill } from "react-icons/bs";
 // import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Buttons from "./components/Buttons";
 
 const GrapesJSComponent = () => {
   const [editor, setEditor] = useState(null);
@@ -39,6 +40,13 @@ const GrapesJSComponent = () => {
       },
       blockManager: {
         blocks: [
+          {
+            id: "custom components",
+            label: "btns",
+            category: "custom components",
+            content: '<article class="hello">Hello world</article>',
+            style: ".hello{color: red;background:green}",
+          },
           {
             id: "block-id",
             label: "Block Label",
@@ -78,7 +86,7 @@ const GrapesJSComponent = () => {
             label: "Grid Block",
             category: "kartik",
             attributes: { class: "grid-block" },
-            content: "<div>Plane Div</div>",
+            content: "<div >Plane Div</div>",
             icon: "icon-layout",
           },
           {
