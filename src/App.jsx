@@ -9,9 +9,13 @@ import { SalesHomePage } from "./pages/Sales";
 import { OpenTable } from "./pages/Sales/OpenTable";
 import { SalesClose } from "./pages/Sales/SalesClose";
 import { Widget } from "./pages/Widgets";
+import { NotFound } from "./pages/NotFound";
+
+
 function App() {
   return (
     <>
+    <h1>hello world</h1>
       <Router>
         <Routes>
           <Route path="/Login" element={<Login />} />
@@ -21,6 +25,7 @@ function App() {
           <Route path="/Sales/Open" element={<OpenTable/>} />
           <Route path="/Sales/Close" element={<SalesClose/>} />
           <Route path="/Sales" element={<SalesHomePage/>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>
