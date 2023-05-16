@@ -4,20 +4,20 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
-    import SigninForm from './SigninForm'
+    import SignupForm from './SignupForm'
     
 
 
 
-function Signin({setSection,vars}) {
+function Signup({setSection,vars}) {
   const navigate = useNavigate()
 
   return (
     <>
-      <SigninForm vars={vars} setSection={setSection}/>
+      <SignupForm vars={vars} setSection={setSection}/>
       
     </>
   )
 }
 
-export default Signin
+export default Signup

@@ -1,6 +1,9 @@
-// import { CustomCalendar } from "./CustomCalendar"
+import { CustomCalendar } from "./CustomCalendar"
+import ActionAreaCard from "./CustomCards";
 import CompossedLineBarArea from "./CustomCharts";
 import ListRender from "./ListRender";
+import App from "./RoundPie";
+import RoundPie from "./RoundPie";
 
 export default function Dashboard() {
   return (
@@ -11,13 +14,14 @@ export default function Dashboard() {
       </div>
       <div className="App">
         <h1>Component Table</h1>
-        {/* <StrippedTable /> */}
         <ListRender />
       </div>
       <div className="App">
         <h1>Calendar </h1>
-        {/* <CustomCalendar /> */}
+        <CustomCalendar />
       </div>
+      <ActionAreaCard/>
+        {/* <App/> */}
     </>
   );
 }
