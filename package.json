@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.0",
-    "grapesjs": "^0.21.1",
-    "grapesjs-preset-webpage": "^1.0.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0"
+    "@emotion/react": "11.11.0",
+    "@emotion/styled": "11.11.0",
+    "@mui/icons-material": "5.11.16",
+    "@mui/material": "5.11.15",
+    "loader-utils": "3.2.1",
+    "react": "18.2.0",
+    "react-big-calendar": "1.6.9",
+    "react-calendar": "4.2.1",
+    "react-dom": "18.2.0",
+    "react-helmet": "6.1.0",
+    "react-scripts": "5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
