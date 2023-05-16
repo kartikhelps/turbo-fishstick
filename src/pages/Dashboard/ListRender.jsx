@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const students = [
   { no: 5, name: "hello", position: "max" },
@@ -26,7 +28,7 @@ const students = [
   { no: 50, name: "Charlie", position: "min" },
 ];
 
-const ListRender = () => {
+const ListRender = ({ type }) => {
   function handleDeleteStudent() {}
   function handleEditStudent() {}
 
@@ -43,7 +45,7 @@ const ListRender = () => {
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#616161" }}>
-                <TableCell align="center">Serial No</TableCell>
+                <TableCell align="center">{type === "img" ? <AttachMoneyIcon/> : "id"}</TableCell>
                 {fieldsName &&
                   fieldsName.map((field) => {
                     return (
@@ -52,7 +54,7 @@ const ListRender = () => {
                       </TableCell>
                     );
                   })}
-                <TableCell align="center">Actions</TableCell>
+                {type !== "img" && <TableCell align="center">Actions</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -60,7 +62,9 @@ const ListRender = () => {
                 students.map((student, i) => {
                   return (
                     <TableRow key={i}>
-                      <TableCell align="center">{i + 1}</TableCell>
+                      <TableCell align="center">
+                        {type === "img" ? <AccountCircleIcon fontSize="large"/> : i + 1}
+                      </TableCell>
                       {fieldsName &&
                         fieldsName.map((field) => (
                           <TableCell
@@ -70,22 +74,24 @@ const ListRender = () => {
                             {student[field]}
                           </TableCell>
                         ))}
-                      <TableCell align="center">
-                        <Tooltip title="Edit">
-                          <IconButton
-                            onClick={() => handleEditStudent(student)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <IconButton
-                            onClick={() => handleDeleteStudent(student)}
-                          >
-                            <DeleteIcon color="secondary" />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
+                      {type !== "img" && (
+                        <TableCell align="center">
+                          <Tooltip title="Edit">
+                            <IconButton
+                              onClick={() => handleEditStudent(student)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Delete">
+                            <IconButton
+                              onClick={() => handleDeleteStudent(student)}
+                            >
+                              <DeleteIcon color="secondary" />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}
@@ -98,4 +104,5 @@ const ListRender = () => {
     </>
   );
 };
+
 export default ListRender;

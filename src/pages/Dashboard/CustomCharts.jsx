@@ -18,11 +18,6 @@ import {
 
 import { blue } from "@mui/material/colors";
 import data1 from "./sampleData";
-// import Hi from "../dir/Hi";
-
-// const useStyles = makeStyles()(() => ({
-
-// }));
 
 const chartFluid = {
   width: "100%",
