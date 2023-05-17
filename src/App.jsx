@@ -21,13 +21,6 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { alpha } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
@@ -207,16 +200,14 @@ function App() {
           </Box>
         </Toolbar>
       </AppBar>
-      <div style={{ padding: "60px 0 60px 0" }}>
+      <div style={{ padding: "6rem 0 6rem 0" }}>
         <Router>
           <Routes>
+            <Route path="/" element={<Dashboard />} />
             <Route path="/Login" element={<Login />} />
-            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/Widget" element={<Widget />} />
             <Route path="/Calls" element={<Calls />} />
-            <Route path="/Sales/Open" element={<OpenTable />} />
-            <Route path="/Sales/Close" element={<SalesClose />} />
-            <Route path="/Sales" element={<SalesHomePage />} />
+            <Route path='/sales/lead_profile' element={<LeadProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
