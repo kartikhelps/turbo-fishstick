@@ -110,6 +110,8 @@ function App() {
 
   return (
     <>
+     <Box sx={{ display: 'flex' }}>
+     <CssBaseline/>
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -212,6 +214,7 @@ function App() {
           </Routes>
         </Router>
       </div>
+      </Box>
     </>
   );
 }
