@@ -1,19 +1,20 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_AXIOS_URL;
+// const API_URL = process.env.REACT_APP_AXIOS_URL;
+const API_URL = `http://localhost:5000`;
 
 const options = { method: "GET", url: `${API_URL}/api/user/list` };
 
-console.log(options);
+console.log(options,"here aero");
 
-export async function getAllUser() {
-  try {
-    const response = await axios.request(options);
-    // console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
+// export async function getAllUser() {
+//   try {
+//     const response = await axios.request(options);
+//     // console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
 
 export async function addUser(name, email, password,) {
@@ -40,7 +41,7 @@ export async function addUser(name, email, password,) {
 export async function deleteUser(id) {
   const options = {
     method: "DELETE",
-    url: `${API_URL}/api/user?id=${id}`,
+    url: `http://localhost:5000/api/leads`,
     headers: { id },
   };
 
@@ -53,12 +54,12 @@ export async function deleteUser(id) {
 }
 
 
-export async function updateUser(name, email, id) {
+export async function updateUser(formValues,id) {
   const options = {
-    method: "PUT",
-    url: `${API_URL}/api/user`,
-    params: { id },
-    data: { name, email },
+    method: 'PUT',
+    url: 'http://localhost:5000/api/leads',
+    params: {id: id},
+    data: formValues
   };
 
   try {

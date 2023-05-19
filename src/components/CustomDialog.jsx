@@ -8,10 +8,15 @@ import {
   Button,
 } from "@mui/material";
 // import { addUser, updateUser, deleteUser } from "../../api/GetAllUser";
-import { addUser, updateUser, deleteUser } from "../services/getAllUsers";
+import {  updateUser, deleteUser } from "../services/getAllUsers";
 
 const CustomDialog = ({ modalType, open, setOpenModal, id, data, fields }) => {
   const [formValues, setFormValues] = useState({});
+  const [sendValues,setSendValues]=useState()
+  const exemptValues = ["_id", "createdAt", "updatedAt", "__v"];
+
+
+
 
   const handleClose = () => {
     setOpenModal(false);
@@ -22,10 +27,14 @@ const CustomDialog = ({ modalType, open, setOpenModal, id, data, fields }) => {
       const selectedData = data.find((item) => item._id === id);
       if (selectedData) {
         setFormValues(selectedData);
+        setSendValues((obj)=>
+            Object.fromEntries(Object.entries(selectedData).filter(([key, value]) => !exemptValues.includes(key)))
+        )    
       }
     }
   }, [data, id]);
 
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
@@ -33,34 +42,39 @@ const CustomDialog = ({ modalType, open, setOpenModal, id, data, fields }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (modalType === "create") {
-      await addUser(formValues.name, formValues.email, formValues.password);
-    } else if (modalType === "update") {
-      await updateUser(formValues.name, formValues.email, id);
+    if (modalType === "update") {
+      await updateUser(formValues,id);
     } else if (modalType === "delete") {
       await deleteUser(id);
     }
-    handleClose();
-  };
 
+    // console.log(sendValues,"this data")
+    handleClose();
+    console.log(formValues,id,"this data")
+  };
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{modalType === "update" ? "Update" : "Delete"}</DialogTitle>
       <form onSubmit={handleSubmit}>
-        {modalType === "update" ? (
+        {modalType === "update" && data !== undefined ? (
           <DialogContent>
-            {fields.map((field) => (
-              <TextField
-                key={field}
-                margin="dense"
-                label={field}
-                type="text"
-                name={field}
-                value={formValues[field] || ""}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            ))}
+            {fields !== undefined &&
+              fields.map((field) => {
+                if (exemptValues.includes(field)) {
+                  return null; // Exclude the field from rendering
+                }
+                return (
+                  <TextField
+                    key={field}
+                    margin="dense"
+                    label={field}
+                    name={field}
+                    value={formValues[field]}
+                    onChange={handleInputChange}
+                    fullWidth
+                  />
+                );
+              })}
           </DialogContent>
         ) : (
           <DialogContent>Are you sure you want to delete?</DialogContent>
@@ -74,6 +88,8 @@ const CustomDialog = ({ modalType, open, setOpenModal, id, data, fields }) => {
       </form>
     </Dialog>
   );
+  
+  
 };
 
 export default CustomDialog;
