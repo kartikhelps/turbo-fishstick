@@ -29,9 +29,10 @@ const Login = () => {
   useEffect(() => {
     // axios.get( process.env.baseUrl +  'master/').then((res) => {
     axios
-      .get("https://testing.akhilparmar1.repl.co" + "master/")
+      .get(`http://localhost:5000/api/users`)
       .then((res) => {
-        setVars(res.data.data);
+        console.log(res.data, "rohit");
+        setVars(res.data);
         setLoad(true);
       })
       .catch((err) => {
