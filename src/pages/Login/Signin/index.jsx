@@ -48,7 +48,7 @@ password:formData.password,
 
 
 
-    axios.POST(process.env.baseUrl +  'users/',{
+    axios.GET('http://localhost:5000/api/' +  'users/',{
 sendData
     }).then((res) => {
 
