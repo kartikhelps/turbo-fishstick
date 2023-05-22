@@ -1,33 +1,32 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-// import { Calls } from "./pages/Calls";
 import Calls from "./pages/Calls";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import LeadProfile from "./pages/Sales/LeadProfile";
 import { Widget } from "./pages/Widgets";
 import { NotFound } from "./pages/NotFound";
-import AddNote from "./pages/Sales/AddNote";
-import SalesOpen from "./pages/Sales/Open";
-import Sidebar from "./pages/components/Sidebar";
 
 function App() {
   return (
     <>
-      <Router>
-        <Sidebar />
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/widget' element={<Widget />} />
-          <Route path='/calls' element={<Calls />} />
-          <Route path='/sales/lead_profile' element={<LeadProfile />} />
-          <Route path='/sales/notes' element={<AddNote />} />
-          <Route path='/sales/open' element={<SalesOpen />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </Router>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Navbar />
+        <div style={{ padding: "6rem 0 6rem 0" }}>
+          <Router>
+            <Routes>
+              <Route path='/' element={<Dashboard />} />
+              <Route path='/Login' element={<Login />} />
+              <Route path='/Widget' element={<Widget />} />
+              <Route path='/Calls' element={<Calls />} />
+              <Route path='/sales/' element={<LeadProfile />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </Router>
+        </div>
+      </Box>
     </>
   );
 }

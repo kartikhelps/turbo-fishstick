@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Typography,
   TableContainer,
@@ -13,93 +14,117 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import axios from "axios";
+import CustomDialog from "../../components/CustomDialog";
 
-const students = [
-  { no: 5, name: "hello", position: "max" },
-  { no: 23, name: "buffalo", position: "min" },
-  { no: 12, name: "super", position: "max" },
-  { no: 9, name: "Michael", position: "min" },
-  { no: 42, name: "John", position: "max" },
-  { no: 77, name: "Jane", position: "max" },
-  { no: 31, name: "Adam", position: "min" },
-  { no: 19, name: "Alice", position: "max" },
-  { no: 64, name: "Bob", position: "max" },
-  { no: 50, name: "Charlie", position: "min" },
-];
+const options = { method: 'GET', url: 'http://localhost:5000/api/leads/list' };
 
 const ListRender = ({ type }) => {
-  function handleDeleteStudent() {}
-  function handleEditStudent() {}
+  const [data, setData] = useState([]);
+  const [delModal, setDelModal] = useState(false);
+  const [modalType, setModalType] = useState("update");
+  const [currentId, setCurrentId] = useState('');
+  const [modal, setModal] = useState(false);
+  const [fieldsName, setFieldsName] = useState([]);
 
-  function getFieldNames(obj) {
-    return Object.keys(obj[0]);
+  useEffect(() => {
+    axios.request(options).then(function (response) {
+      setData(response.data.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      setFieldsName(getFieldNames(data));
+    }
+  }, [data]);
+
+  function handleDeleteStudent(id) {
+    setDelModal(true);
+    setModalType("delete");
+    setCurrentId(id);
   }
 
-  const fieldsName = getFieldNames(students);
+  function handleEditStudent(id) {
+    setModal(true);
+    setModalType("update");
+    setCurrentId(id);
+  }
+
+  function getFieldNames(obj) {
+    if (Array.isArray(obj) && obj.length > 0) {
+      const keys = Object.keys(obj[0]);
+      const fields = keys.filter(key => !Array.isArray(obj[0][key]));
+      return fields;
+    } else {
+      const keys = Object.keys(obj);
+      const fields = keys.filter(key => !Array.isArray(obj[key]));
+      return fields;
+    }
+  }
 
   return (
     <>
-      {students.length > 0 ? (
+      {data.length > 0 && (
+        <CustomDialog
+          modalType={modal ? "update" : "delete"}
+          setOpenModal={modal ? setModal : setDelModal}
+          open={modal || delModal}
+          setData={setData} // Update the prop name here to setData
+          data={data}
+          fields={fieldsName}
+          id={currentId}
+        />
+      )}
+      {data.length > 0 ? (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow style={{ backgroundColor: "#616161" }}>
-                <TableCell align="center">{type === "img" ? <AttachMoneyIcon/> : "id"}</TableCell>
-                {fieldsName &&
-                  fieldsName.map((field) => {
-                    return (
-                      <TableCell key={field} align="center">
-                        {field}
-                      </TableCell>
-                    );
-                  })}
+                <TableCell align="center">{type === "img" ? <AttachMoneyIcon /> : "id"}</TableCell>
+                {fieldsName.map((field) => (
+                  <TableCell key={field} align="center">
+                    {field}
+                  </TableCell>
+                ))}
                 {type !== "img" && <TableCell align="center">Actions</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
-              {students !== undefined &&
-                students.map((student, i) => {
-                  return (
-                    <TableRow key={i}>
-                      <TableCell align="center">
-                        {type === "img" ? <AccountCircleIcon fontSize="large"/> : i + 1}
-                      </TableCell>
-                      {fieldsName &&
-                        fieldsName.map((field) => (
-                          <TableCell
-                            key={`${student.no}-${field}`}
-                            align="center"
-                          >
-                            {student[field]}
-                          </TableCell>
-                        ))}
-                      {type !== "img" && (
-                        <TableCell align="center">
-                          <Tooltip title="Edit">
-                            <IconButton
-                              onClick={() => handleEditStudent(student)}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Delete">
-                            <IconButton
-                              onClick={() => handleDeleteStudent(student)}
-                            >
-                              <DeleteIcon color="secondary" />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  );
-                })}
+              {data.map((student, i) => (
+                <TableRow key={i}>
+                  <TableCell align="center">
+                    {type === "img" ? <AccountCircleIcon fontSize="large" /> : i + 1}
+                  </TableCell>
+                  {fieldsName.map((field) => (
+                    <TableCell key={`${student._id}-${field}`} align="center">
+                      {student[field]}
+                    </TableCell>
+                  ))}
+                  {type !== "img" && (
+                    <TableCell align="center">
+                      <Tooltip title="Edit">
+                        <IconButton onClick={() => handleEditStudent(student._id)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton onClick={() => handleDeleteStudent(student._id)}>
+                          <DeleteIcon color="secondary" />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
       ) : (
-        <Typography>No students found</Typography>
+        <Typography>No data found</Typography>
       )}
     </>
   );

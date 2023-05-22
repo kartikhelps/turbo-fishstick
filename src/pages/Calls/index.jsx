@@ -9,10 +9,29 @@ import {
   Card,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import useClipboard from "react-use-clipboard";
 // import VideoPlayer from "./VideoPlayer";
+import "./index.css"
 
 const Calls = () => {
   const [selectedTab, setSelectedTab] = useState("call-info");
+  const [textToCopy, setTextToCopy] = useState();
+  const [isCopied, setCopied] = useClipboard(textToCopy, {
+    successDuration: 1000,
+  });
+
+  const startListening = () =>
+    SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
+  const { transcript, browserSupportsSpeechRecognition } =
+    useSpeechRecognition();
+
+  if (!browserSupportsSpeechRecognition) {
+    return null;
+  }
+
 
   const handleTabChange = (tabName) => {
     setSelectedTab(tabName);
@@ -21,7 +40,23 @@ const Calls = () => {
   const renderContent = () => {
     switch (selectedTab) {
       case "call-info":
-        return <div>Call Info content</div>;
+        return <div className="container">Call Info content
+          <>
+          <div className="main-content" onClick={() => setTextToCopy(transcript)}>
+          {transcript}
+        </div>
+
+        <div className="btn-style">
+          <button onClick={setCopied}>
+            {isCopied ? "Copied!" : "Copy to clipboard"}
+          </button>
+          <button onClick={startListening}>Start Listening</button>
+          <button onClick={SpeechRecognition.stopListening}>
+            Stop Listening
+          </button>
+        </div>
+          </>
+        </div>;
       case "comments":
         return <div>Comments content</div>;
       case "notes":
