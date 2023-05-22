@@ -1,5 +1,5 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import DealInfo from "./Deal_Info";
+import axios from "axios";
 
 const data = [
   "ABC Corp.",
@@ -52,6 +53,7 @@ function a11yProps(index) {
   };
 }
 function LeadProfile() {
+  const [fetchData, setFetchData] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(0);
   const open = Boolean(anchorEl);
@@ -65,9 +67,16 @@ function LeadProfile() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    axios
+      .get(`localhost:5000/api/sales/list`)
+      .then((response) => setFetchData(response.data))
+      .catch((error) => console.error(error));
+  }, []);
   return (
-    <div className={styles.main}>
-      <div className={styles.sub_main}>
+    <div className='main_lead_profile'>
+      <div className='sub_main_lead_profile'>
         <div>
           <Typography variant='h4' fontFamily={"Poppins"} fontWeight={500}>
             Manage Leads&gt;Lead XYZ -Info{" "}
@@ -108,13 +117,13 @@ function LeadProfile() {
           </Menu>
         </div>
       </div>
-      <div className={styles.sub_main_main}>
-        <div className={styles.sub_main_main_info}>
-          <div className={styles.sub_main_main_info_info}>
+      <div className='sub_main_main_lead_profile'>
+        <div className='sub_main_main_info'>
+          <div className='sub_main_main_info_info'>
             <div>
               <img src='/sales/Ellipse.svg' />
             </div>
-            <div className={styles.sub_main_main_info_info_text}>
+            <div className='sub_main_main_info_info_text'>
               <div>
                 <Typography
                   fontSize={"3.2rem"}
@@ -141,7 +150,7 @@ function LeadProfile() {
             </div>
           </div>
           <Divider variant='middle' />
-          <div className={styles.company_info}>
+          <div className='company_info'>
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -231,7 +240,7 @@ function LeadProfile() {
             </div>
           </div>
           <Divider variant='middle' />
-          <div className={styles.lead_info}>
+          <div className='lead_info'>
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -405,7 +414,7 @@ function LeadProfile() {
             </div>
           </div>
           <Divider variant='middle' />
-          <div className={styles.company_info}>
+          <div className='company_info'>
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -415,7 +424,7 @@ function LeadProfile() {
                 Primary CLient POC
               </Typography>
             </div>
-            <div className={styles.sales_manager_info}>
+            <div className='sales_manager_info'>
               <div>
                 <img src='/sales/salesmanager.svg' />
               </div>
@@ -500,7 +509,7 @@ function LeadProfile() {
             </div>
           </div>
           <Divider variant='middle' />
-          <div className={styles.company_info}>
+          <div className='company_info'>
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -510,8 +519,8 @@ function LeadProfile() {
                 OTHER CONTACTS
               </Typography>
             </div>
-            <div className={styles.other_contact_info}>
-              <div className={styles.other_contact_info_info}>
+            <div className='other_contact_info'>
+              <div className='other_contact_info_info'>
                 <div>
                   <img src='/sales/salesmanager.svg' />
                 </div>
@@ -538,7 +547,7 @@ function LeadProfile() {
                 </div>
               </div>
 
-              <div className={styles.other_contact_info_info}>
+              <div className='other_contact_info_info'>
                 <div>
                   <img src='/sales/salesmanager.svg' />
                 </div>
@@ -564,7 +573,7 @@ function LeadProfile() {
                   </div>
                 </div>
               </div>
-              <div className={styles.other_contact_info_info}>
+              <div className='other_contact_info_info'>
                 <div>
                   <img src='/sales/salesmanager.svg' />
                 </div>
@@ -593,7 +602,7 @@ function LeadProfile() {
             </div>
           </div>
         </div>
-        <div className={styles.sub_main_tabs}>
+        <div className='sub_main_tabs'>
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs

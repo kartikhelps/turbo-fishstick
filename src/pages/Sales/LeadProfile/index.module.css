@@ -1,16 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-.main {
+.main_lead_profile {
   display: flex;
   flex-direction: column;
   /* background-color: rgba(217, 217, 217, 1); */
   font-family: "Poppins", sans-serif;
 }
-.sub_main {
+.sub_main_lead_profile {
   display: flex;
   justify-content: space-between;
 }
 
-.sub_main_main {
+.sub_main_main_lead_profile {
   display: flex;
   gap: 2rem;
 }

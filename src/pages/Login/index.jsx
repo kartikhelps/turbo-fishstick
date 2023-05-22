@@ -31,7 +31,8 @@ const Login = () => {
     axios
       .get("https://localhost:5000/api/users")
       .then((res) => {
-        setVars(res.data.data);
+        console.log(res.data, "rohit");
+        setVars(res.data);
         setLoad(true);
       })
       .catch((err) => {

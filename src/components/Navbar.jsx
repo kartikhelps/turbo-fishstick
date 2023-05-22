@@ -26,6 +26,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
+import { Link, NavLink,useHistory } from "react-router-dom";
 
 import InputBase from "@mui/material/InputBase";
 
@@ -102,6 +103,12 @@ const Drawer = styled(MuiDrawer, {
 
 const Navbar = () => {
   const theme = useTheme();
+  const history = useHistory();
+
+  const handleClick = () => {
+    console.log("first")
+    // history.push('/Dashboard');
+  };
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -177,6 +184,35 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  function SidebarValue() {
+    return (
+      <ListItem
+        sx={{ display: "block" }}
+        disablePadding
+        onClick={handleClick}
+      >
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? "initial" : "center",
+            px: 2.5,
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : "auto",
+              justifyContent: "center",
+            }}
+          >
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={"hi"} sx={{ opacity: open ? 1 : 0 }} />
+        </ListItemButton>
+      </ListItem>
+    );
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -274,16 +310,12 @@ const Navbar = () => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Dashboard", "Sales", "Open", "Widgets"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
@@ -306,8 +338,8 @@ const Navbar = () => {
             </ListItem>
           ))}
         </List>
-        <Divider />
-        <List>
+        <SidebarValue />
+        {/* <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -330,7 +362,7 @@ const Navbar = () => {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
