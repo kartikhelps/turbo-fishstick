@@ -26,11 +26,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
-import { Link, NavLink,useHistory } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import CallIcon from "@mui/icons-material/Call";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import CloseIcon from "@mui/icons-material/Close";
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 import InputBase from "@mui/material/InputBase";
 
 import SearchIcon from "@mui/icons-material/Search";
+import { Call, OpenInBrowser } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -103,12 +110,9 @@ const Drawer = styled(MuiDrawer, {
 
 const Navbar = () => {
   const theme = useTheme();
-  const history = useHistory();
+  // const navigate = useNavigate();
+  // const history = useHistory();
 
-  const handleClick = () => {
-    console.log("first")
-    // history.push('/Dashboard');
-  };
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -185,13 +189,17 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  function SidebarValue() {
+  function SidebarValue({ name, icon, linkPath }) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      navigate(linkPath);
+    };
+
+    // console.log(linkPath,"here is path")
+
     return (
-      <ListItem
-        sx={{ display: "block" }}
-        disablePadding
-        onClick={handleClick}
-      >
+      <ListItem sx={{ display: "block" }} disablePadding onClick={handleClick}>
         <ListItemButton
           sx={{
             minHeight: 48,
@@ -206,9 +214,14 @@ const Navbar = () => {
               justifyContent: "center",
             }}
           >
-            <InboxIcon />
+            {icon === "dashboard" && <SpaceDashboardIcon />}
+            {icon === "widget" && <WidgetsIcon />}
+            {icon === "calls" && <Call />}
+            {icon === "open" && <OpenInBrowser />}
+            {icon === "close" && <CloseIcon />}
+            {icon === "note" && <NoteAddIcon/>}
           </ListItemIcon>
-          <ListItemText primary={"hi"} sx={{ opacity: open ? 1 : 0 }} />
+          <ListItemText sx={{ opacity: open ? 1 : 0 }}>{name} </ListItemText>
         </ListItemButton>
       </ListItem>
     );
@@ -314,55 +327,21 @@ const Navbar = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Dashboard", "Sales", "Open", "Widgets"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <SidebarValue />
-        {/* <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+
+        <SidebarValue
+          name={"Dashboard"}
+          linkPath="/Dashboard"
+          icon={"dashboard"}
+        />
+        <SidebarValue name={"Widget"} linkPath="/Widget" icon={"widget"} />
+        <SidebarValue name={"Calls"} linkPath="/Calls" icon={"calls"} />
+        <SidebarValue name={"Sales Open"} linkPath="/sales" icon={"open"} />
+        <SidebarValue name={"Note Add"} linkPath="/note" icon={"note"} />
+        <SidebarValue
+          name={"Sales Close"}
+          linkPath="/Dashboard"
+          icon={"close"}
+        />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
