@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Calls from "./pages/Calls";
@@ -12,14 +17,25 @@ import { CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Login/Signup";
 import AddNote from "./pages/Sales/AddNote";
+import { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom";
 
 function App() {
+  const [val, setVal] = useState(true);
+
+  useEffect(() => {
+    if (["/signup", "/login"].includes(window.location.pathname)) {
+      setVal(false);
+    }
+  }, []);
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Router>
-          <Navbar />
+          {val && <Navbar />}
+
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/Dashboard" element={<Dashboard />} />
@@ -30,11 +46,7 @@ function App() {
             <Route path="/note" element={<AddNote />} />
             <Route path="*" element={<NotFound />} />
             {/* Redirect the index route to /signup */}
-            <Route
-              path="/"
-              element={<Navigate to="/signup" replace />}
-              index
-            />
+            <Route path="/" element={<Navigate to="/login" replace />} index />
           </Routes>
         </Router>
       </Box>
