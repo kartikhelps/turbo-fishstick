@@ -32,24 +32,24 @@ function App() {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box>
         <CssBaseline />
         <div style={{ margin: "0 0 0 9rem" }}>
           <Router>
             {val && <Navbar />}
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/widget" element={<Widget />} />
-              <Route path="/calls" element={<Calls />} />
-              <Route path="/sales/lead_profile" element={<LeadProfile />} />
-              <Route path="/sales/open" element={<SalesOpen />} />
-              <Route path="/sales/closed" element={<AddNote />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/widget' element={<Widget />} />
+              <Route path='/calls' element={<Calls />} />
+              <Route path='/sales/lead_profile' element={<LeadProfile />} />
+              <Route path='/sales/open' element={<SalesOpen />} />
+              <Route path='/sales/closed' element={<AddNote />} />
+              <Route path='*' element={<NotFound />} />
               {/* Redirect the index route to /signup */}
               <Route
-                path="/"
-                element={<Navigate to="/login" replace />}
+                path='/'
+                element={<Navigate to='/login' replace />}
                 index
               />
             </Routes>
