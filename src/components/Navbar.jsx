@@ -1,5 +1,6 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
+
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -26,19 +27,22 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import WidgetsIcon from "@mui/icons-material/Widgets";
-import CallIcon from "@mui/icons-material/Call";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import CloseIcon from "@mui/icons-material/Close";
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-
+import { Link, NavLink } from "react-router-dom";
+import GridViewIcon from "@mui/icons-material/GridView";
 import InputBase from "@mui/material/InputBase";
-
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import SearchIcon from "@mui/icons-material/Search";
-import { Call, OpenInBrowser } from "@mui/icons-material";
-
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import {
+  ArrowUpward,
+  CallOutlined,
+  CorporateFare,
+  ExpandLess,
+  ExpandMore,
+  FiberManualRecord,
+  Segment,
+} from "@mui/icons-material";
+import { Collapse } from "@mui/material";
 const drawerWidth = 240;
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -110,7 +114,6 @@ const Drawer = styled(MuiDrawer, {
 
 const Navbar = () => {
   const theme = useTheme();
-  // const navigate = useNavigate();
   // const history = useHistory();
 
   const [open, setOpen] = React.useState(false);
@@ -189,114 +192,109 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  function SidebarValue({ name, icon, linkPath }) {
-    const navigate = useNavigate();
-
-    const handleClick = () => {
-      navigate(linkPath);
-    };
-
-    // console.log(linkPath,"here is path")
-
+  function SidebarValue() {
     return (
-      <ListItem sx={{ display: "block" }} disablePadding onClick={handleClick}>
-        <ListItemButton
-          sx={{
-            minHeight: 48,
-            justifyContent: open ? "initial" : "center",
-            px: 2.5,
-          }}
-        >
-          <ListItemIcon
-            sx={{
-              minWidth: 0,
-              mr: open ? 3 : "auto",
-              justifyContent: "center",
-            }}
-          >
-            {icon === "dashboard" && <SpaceDashboardIcon />}
-            {icon === "widget" && <WidgetsIcon />}
-            {icon === "calls" && <Call />}
-            {icon === "open" && <OpenInBrowser />}
-            {icon === "close" && <CloseIcon />}
-            {icon === "note" && <NoteAddIcon/>}
-          </ListItemIcon>
-          <ListItemText sx={{ opacity: open ? 1 : 0 }}>{name} </ListItemText>
-        </ListItemButton>
-      </ListItem>
+      <></>
+      // <ListItem sx={{ display: "block" }} disablePadding onClick={handleClick}>
+      //   <ListItemButton
+      //     sx={{
+      //       minHeight: 48,
+      //       justifyContent: open ? "initial" : "center",
+      //       px: 2.5,
+      //     }}
+      //   >
+      //     <ListItemIcon
+      //       sx={{
+      //         minWidth: 0,
+      //         mr: open ? 3 : "auto",
+      //         justifyContent: "center",
+      //       }}
+      //     >
+      //       <InboxIcon />
+      //     </ListItemIcon>
+      //     <ListItemText primary={"hello"} sx={{ opacity: open ? 1 : 0 }} />
+      //   </ListItemButton>
+      // </ListItem>
     );
   }
+  const [sideopen, setSideOpen] = React.useState(false);
 
+  const handleSubMenuClick = () => {
+    setSideOpen(!sideopen);
+  };
+  const [callopen, setCallOpen] = React.useState(false);
+
+  const handleCallSubMenuClick = () => {
+    setCallOpen(!callopen);
+  };
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", backgroundColor: "#fff" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar sx={{ backgroundColor: "#fff" }} position='fixed' open={open}>
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <Segment sx={{ color: "#000" }} />
           </IconButton>
+          <img src='dashboard/product_x.svg' />
           <Typography
-            variant="h6"
             noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            component='div'
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              fontFamily: "Poppins",
+              fontSize: "1.6rem",
+              color: "#000",
+              fontWeight: "bold",
+            }}
           >
-            LOGO
+            PRODUCT X
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon sx={{ color: "#000" }} />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder='Search…'
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
+              size='large'
+              aria-label='show 1 new notifications'
+              color='inherit'
             >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
+              <Badge badgeContent={1} color='error'>
+                <NotificationsIcon sx={{ color: "#000" }} />
               </Badge>
             </IconButton>
             <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
+              size='large'
+              edge='end'
+              aria-label='account of current user'
               aria-controls={menuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              color='inherit'
             >
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Tooltip title='Open settings'>
+                <IconButton onClick={handleOpenUserMenu}>
+                  <img src='/dashboard/profile.svg' />
                 </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
@@ -312,7 +310,7 @@ const Navbar = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <Typography textAlign='center'>{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -320,30 +318,359 @@ const Navbar = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant='permanent' open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
-
-        <SidebarValue
-          name={"Dashboard"}
-          linkPath="/Dashboard"
-          icon={"dashboard"}
-        />
-        <SidebarValue name={"Widget"} linkPath="/Widget" icon={"widget"} />
-        <SidebarValue name={"Calls"} linkPath="/Calls" icon={"calls"} />
-        <SidebarValue name={"Sales Open"} linkPath="/sales" icon={"open"} />
-        <SidebarValue name={"Note Add"} linkPath="/note" icon={"note"} />
-        <SidebarValue
-          name={"Sales Close"}
-          linkPath="/Dashboard"
-          icon={"close"}
-        />
+        <List>
+          <ListItem sx={{ display: "block", paddingLeft: "1rem" }}>
+            <ListItemButton
+              to='/dashboard'
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: "1.5rem",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <GridViewIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize={"1.5rem"} fontFamily={"Poppins"}>
+                    Dashboard
+                  </Typography>
+                }
+                sx={{
+                  opacity: open ? 1 : 0,
+                  fontSize: "1.5rem",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            button
+            onClick={handleSubMenuClick}
+            sx={{
+              display: "flex",
+              paddingLeft: "1rem",
+            }}
+          >
+            <ListItemButton
+              to='/sales/lead_profile'
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: "1.5rem",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <SyncAltIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize={"1.5rem"} fontFamily={"Poppins"}>
+                    Sales
+                  </Typography>
+                }
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+            {sideopen ? (
+              <ExpandLess sx={{ marginLeft: "1rem" }} />
+            ) : (
+              <ExpandMore sx={{ marginLeft: "1rem" }} />
+            )}
+          </ListItem>
+          <Collapse in={sideopen} timeout='auto' unmountOnExit>
+            <List component='div' disablePadding>
+              {/* //open */}
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/sales/open'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Open
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              {/* closed */}
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/sales/closed'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Dashboard
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/sales/insight'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Estimates and Insights
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              {/* insight */}
+            </List>
+          </Collapse>
+          <ListItem
+            onClick={handleCallSubMenuClick}
+            sx={{ display: "flex", paddingLeft: "1rem" }}
+          >
+            <ListItemButton
+              to='/calls'
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: "1.5rem",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <CallOutlined />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize={"1.5rem"} fontFamily={"Poppins"}>
+                    Calls
+                  </Typography>
+                }
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+            {callopen ? (
+              <ExpandLess sx={{ marginLeft: "1rem" }} />
+            ) : (
+              <ExpandMore sx={{ marginLeft: "1rem" }} />
+            )}
+          </ListItem>
+          <Collapse in={callopen} timeout='auto' unmountOnExit>
+            <List component='div' disablePadding>
+              {/* //open */}
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/calls/open'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Open
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              {/* closed */}
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/cals/closed'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Closed
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  to='/calls/open'
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: "1.5rem",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FiberManualRecord />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography fontSize={"1.3rem"} fontFamily={"Poppins"}>
+                        Estimates and Insights
+                      </Typography>
+                    }
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              {/* insight */}
+            </List>
+          </Collapse>
+          <ListItem sx={{ display: "block", paddingLeft: "1rem" }}>
+            <ListItemButton
+              to='/coaching'
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: "1.5rem",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <CorporateFare />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize={"1.5rem"} fontFamily={"Poppins"}>
+                    Coaching
+                  </Typography>
+                }
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <SidebarValue />
+        {/* <List>
+          {["All mail", "Trash", "Spam"].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List> */}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
     </Box>
