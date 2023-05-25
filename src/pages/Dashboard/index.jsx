@@ -189,22 +189,42 @@ function SalesCard() {
 export default function Dashboard() {
   const [data2, setData2] = useState([]);
   const [data3, setData3] = useState([]);
-  const [roles, setRoles] = useState([]);
-  const { userData } = useContext(AuthContext);
+  const [currentRole, setCurrentRole] = useState("agent");
+  const { roles, userData } = useContext(AuthContext);
 
   useEffect(() => {
     fetchData("http://localhost:5000/api/users/list", setData2);
     fetchData("http://localhost:5000/api/leads/list", setData3);
-    fetchData("http://localhost:5000/api/roles/list", setRoles);
   }, []);
 
-  console.log(userData, roles, "here is data coming");
+
+  console.log(roles, userData, currentRole, "here is data coming");
+
+  const findUserRole = (roleIds, rolesData) => {
+    if (!roleIds || !rolesData) {
+      return []; // Return an empty array if roleIds or rolesData is undefined or null
+    }
+  
+    const userRoles = roleIds.map(roleId =>
+      rolesData.find(role => role._id === roleId)
+    );
+  
+    return userRoles.map(role => role?.name);
+  };
+
+  // useEffect(() => {
+  //   if (roles && userData) {
+  //     const roleIds = userData.roles || []; // Extract role IDs from userData
+  //     setCurrentRole(findUserRole(roleIds, roles));
+  //   }
+  // }, [roles, userData]);
+  
 
   return (
     <>
       <Container>
-        <Typography variant="h3">Welcome {userData?.user.name}  </Typography>
-        <Typography variant="h3">Role {userData?.user.name}  </Typography>
+        <Typography variant="h3">Welcome {userData?.user.name} </Typography>
+        <Typography variant="h3">Role {currentRole}  </Typography>
 
         <Grid container xs={12} spacing={3}>
           <Grid item xs={4}>
