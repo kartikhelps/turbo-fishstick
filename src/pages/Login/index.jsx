@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import {
   Grid,
@@ -21,7 +22,9 @@ const Login = () => {
     username: "",
     password: "",
   });
+
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const host = "http://localhost:5000/api/users";
 
   const handleSubmit = async () => {
@@ -31,8 +34,10 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        navigate("/Dashboard");
-        console.log("Login successful");
+        // Store the data in the state
+        login(response.data);
+        navigate("/dashboard");
+        console.log("Login successful", response.data);
       } else {
         console.log("Login failed");
       }
@@ -138,7 +143,7 @@ const Login = () => {
                 fontSize={"3.6rem"}
                 fontFamily={"Poppins"}
                 fontWeight={600}
-                color='#D885A3'
+                color="#D885A3"
               >
                 PRODUCT X
               </Typography>
@@ -178,9 +183,9 @@ const Login = () => {
                   width: "30rem",
                   backgroundColor: "rgba(192, 219, 234, 1)",
                 }}
-                placeholder='Enter username'
+                placeholder="Enter username"
                 required
-                name='username'
+                name="username"
                 value={credentials.username}
                 onChange={handleChange}
               />
@@ -200,19 +205,19 @@ const Login = () => {
                   width: "30rem",
                   backgroundColor: "rgba(192, 219, 234, 1)",
                 }}
-                label='Password'
-                placeholder='Enter password'
-                type='password'
+                label="Password"
+                placeholder="Enter password"
+                type="password"
                 required
-                name='password'
+                name="password"
                 value={credentials.password}
                 onChange={handleChange}
               />
             </Box>
             <Box>
               <FormControlLabel
-                control={<Checkbox name='checkedB' color='primary' />}
-                label='Remember me'
+                control={<Checkbox name="checkedB" color="primary" />}
+                label="Remember me"
                 sx={{
                   fontSize: "1.6rem",
                   fontFamily: "Poppins",
@@ -222,9 +227,9 @@ const Login = () => {
             </Box>
             <Box>
               <Button
-                type='submit'
-                color='primary'
-                variant='contained'
+                type="submit"
+                color="primary"
+                variant="contained"
                 sx={{
                   backgroundColor: "#D885A3",
                   borderRadius: "2rem",
@@ -272,7 +277,7 @@ const Login = () => {
             <Box>
               {" "}
               <img
-                src='login/girl.svg'
+                src="login/girl.svg"
                 style={{
                   width: "50rem",
                   height: "48rem",

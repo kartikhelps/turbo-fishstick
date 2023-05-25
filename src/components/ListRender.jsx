@@ -16,25 +16,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import axios from "axios";
-import CustomDialog from "../../components/CustomDialog";
+import CustomDialog from "./CustomDialog";
 
-const options = { method: 'GET', url: 'http://localhost:5000/api/leads/list' };
+// const options = { method: 'GET', url: 'http://localhost:5000/api/users/list' };
 
-const ListRender = ({ type }) => {
-  const [data, setData] = useState([]);
+const ListRender = ({ type ,data, setData}) => {
+  // const [data, setData] = useState([]);
   const [delModal, setDelModal] = useState(false);
   const [modalType, setModalType] = useState("update");
   const [currentId, setCurrentId] = useState('');
   const [modal, setModal] = useState(false);
   const [fieldsName, setFieldsName] = useState([]);
 
-  useEffect(() => {
-    axios.request(options).then(function (response) {
-      setData(response.data.data);
-    }).catch(function (error) {
-      console.error(error);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.request(options).then(function (response) {
+  //     setData(response.data.data);
+  //   }).catch(function (error) {
+  //     console.error(error);
+  //   });
+  // }, []);
+
+  // console.log(data,"here is data coming")
 
   useEffect(() => {
     if (data) {

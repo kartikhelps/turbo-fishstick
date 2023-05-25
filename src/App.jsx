@@ -39,6 +39,7 @@ function App() {
             {val && <Navbar />}
             <Routes>
               <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/widget' element={<Widget />} />
               <Route path='/calls' element={<Calls />} />

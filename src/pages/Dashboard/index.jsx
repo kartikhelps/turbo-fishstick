@@ -2,11 +2,14 @@ import { Container, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 // import ListRender from "../../assets/Dashboard/ListRender";
-import ListRender from "./ListRender";
+import ListRender from "../../components/ListRender";
 import CompossedLineBarArea from "./CustomCharts";
+import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const data = [
   { name: "Group A", value: 400 },
@@ -14,6 +17,15 @@ const data = [
   { name: "Group C", value: 300 },
   { name: "Group D", value: 200 },
 ];
+
+export async function fetchData(url, setData) {
+  try {
+    const response = await axios.get(url);
+    setData(response.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -140,7 +152,7 @@ function CardsTop() {
               $8,500
             </Typography>
           </Grid>
-          <Grid item xs={3} style={{paddingBottom:30}}>
+          <Grid item xs={3} style={{ paddingBottom: 30 }}>
             <div
               style={{
                 display: "flex",
@@ -175,10 +187,25 @@ function SalesCard() {
 }
 
 export default function Dashboard() {
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const { userData } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchData("http://localhost:5000/api/users/list", setData2);
+    fetchData("http://localhost:5000/api/leads/list", setData3);
+    fetchData("http://localhost:5000/api/roles/list", setRoles);
+  }, []);
+
+  console.log(userData, roles, "here is data coming");
+
   return (
     <>
       <Container>
-        <Typography variant="h5">Dashboard </Typography>
+        <Typography variant="h3">Welcome {userData?.user.name}  </Typography>
+        <Typography variant="h3">Role {userData?.user.name}  </Typography>
+
         <Grid container xs={12} spacing={3}>
           <Grid item xs={4}>
             <CardsTop />
@@ -203,12 +230,15 @@ export default function Dashboard() {
         </Grid>
         <div style={{ padding: "20px" }} />
         <Grid container spacing={3}>
-          <Grid item xs={7}>
-            <ListRender type={"listType"} />
-          </Grid>
-          <Grid item xs={5}>
-            <ListRender type={"img"} />
-          </Grid>
+          <Typography variant="h3" alignContent="center">
+            User data
+          </Typography>
+
+          <ListRender type={"listType"} data={data2} setData={setData2} />
+          <Typography variant="h3" alignContent="center">
+            leads data
+          </Typography>
+          <ListRender type={"listType"} data={data3} setData={setData3} />
         </Grid>
       </Container>
     </>
