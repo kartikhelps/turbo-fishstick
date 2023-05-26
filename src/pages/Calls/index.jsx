@@ -11,39 +11,18 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useClipboard from "react-use-clipboard";
 import { ReactMic } from "react-mic";
-import "./index.css"
 import axios from "axios";
-import AudioHarvar from "./harvard.wav"
 
-
+const Your_API_Token = "14b81d0a285c4525b799a1327ebd2ab3";
 
 const Calls = () => {
-
-
-  const sendRecordedAudioToAPI = async (audioURL) => {
-    if (audioURL !== '') {
-      try {
-        const response = await axios.post("http://localhost:5000/api/audio_transcripts", {
-          fileUrl: audioURL
-        });
-  
-        console.log("Success:", response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-  
-
   const [selectedTab, setSelectedTab] = useState("call-info");
   const [textToCopy, setTextToCopy] = useState();
   const [isCopied, setCopied] = useClipboard(textToCopy, {
     successDuration: 1000,
   });
   const [record, setRecord] = useState(false);
-  const [recordedAudio, setRecordedAudio] = useState("");
-
-  // const [recordBlob, setRecordBlob] = useState('');
+  const [recordedAudioURL, setRecordedAudioURL] = useState("");
 
   const handleTabChange = (tabName) => {
     setSelectedTab(tabName);
@@ -57,29 +36,47 @@ const Calls = () => {
     setRecord(false);
   };
 
+  const sendAudioChunkToAPI = async (audioChunk) => {
+    if (audioChunk !== "") {
+      try {
+        // Send the audio chunk to the AssemblyAI API
+        const response = await axios.post(
+          "https://api.assemblyai.com/v2/transcript",
+          {
+            audio_url: audioChunk,
+          },
+          {
+            headers: {
+              Authorization: Your_API_Token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Transcript:", response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
   const onData = (recordedBlob) => {
     console.log("chunk of real-time data is: ", recordedBlob);
-    // setRecordBlob(recordedBlob)
+    sendAudioChunkToAPI(recordedBlob.blobURL);
   };
 
   const onStop = (recordedBlob) => {
-    // console.log("recordedBlob is: ", recordedBlob);
     setTextToCopy(recordedBlob.blobURL);
-    setRecordedAudio(recordedBlob.blobURL);
-    sendRecordedAudioToAPI(recordedBlob.blobURL).then(() => {
-      setRecordedAudio("");
-    });
+    setRecordedAudioURL(recordedBlob.blobURL);
+    sendAudioChunkToAPI(recordedBlob.blobURL);
   };
-
-  sendRecordedAudioToAPI(AudioHarvar)
-
-  console.log(recordedAudio,"here is recording")// you can use it for recordingapi
 
   const renderContent = () => {
     switch (selectedTab) {
       case "call-info":
         return (
-          <div className="container">Call Info content
+          <div className="container">
+            Call Info content
             <>
               <ReactMic
                 record={record}
@@ -94,11 +91,11 @@ const Calls = () => {
                   {isCopied ? "Copied!" : "Copy to clipboard"}
                 </button>
                 <button onClick={startRecording}>Start Recording</button>
-                <button onClick={stopRecording}>
-                  Stop Recording
-                </button>
+                <button onClick={stopRecording}>Stop Recording</button>
               </div>
-              { <audio src={AudioHarvar} controls />}
+              {recordedAudioURL && (
+                <audio src={recordedAudioURL} controls />
+              )}
             </>
           </div>
         );
@@ -112,7 +109,7 @@ const Calls = () => {
         return null;
     }
   };
-  
+
   return (
     <Grid container spacing={3}>
       <Grid item container xs={3}>
