@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Box, Container, Grid, IconButton } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -10,6 +10,16 @@ import CompossedLineBarArea from "./CustomCharts";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import {
+  FiberManualRecord,
+  FiberManualRecordOutlined,
+  MoreHoriz,
+} from "@mui/icons-material";
+import ApexChart from "../../components/rotatedBar";
+import LineChart from "../../components/LineChart";
+import BarChart from "../../components/barChart";
+import DataTable from "../../components/DataGrid";
+import Transaction from "../../components/Transaction";
 
 const data = [
   { name: "Group A", value: 400 },
@@ -54,7 +64,13 @@ const renderActiveShape = (props) => {
 
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+      <text
+        x={cx}
+        y={cy}
+        dy={8}
+        textAnchor='middle'
+        fill={"rgba(48, 79, 253, 1)"}
+      >
         {payload.name}
       </text>
       <Sector
@@ -64,7 +80,7 @@ const renderActiveShape = (props) => {
         outerRadius={outerRadius}
         startAngle={startAngle}
         endAngle={endAngle}
-        fill={"green"}
+        fill={"rgba(48, 79, 253, 1)"}
       />
       <Sector
         cx={cx}
@@ -73,7 +89,7 @@ const renderActiveShape = (props) => {
         endAngle={endAngle}
         innerRadius={outerRadius + 6}
         outerRadius={outerRadius + 10}
-        fill={fill}
+        fill={"rgba(255, 150, 93, 1)"}
       />
       {/* <path
         d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
@@ -85,14 +101,14 @@ const renderActiveShape = (props) => {
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
+        fill='#333'
       >{`PV ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill="#999"
+        fill='#999'
       >
         {`(Rate ${(percent * 100).toFixed(2)}%)`}
       </text>
@@ -110,68 +126,89 @@ export function CustomPie() {
   );
 
   return (
-    <PieChart width={300} height={300}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={200}
-        cy={200}
-        innerRadius={60}
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        ml: "5rem",
+      }}
+    >
+      <Box>
+        <PieChart width={300} height={200}>
+          <Pie
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            data={data}
+            cx={100}
+            cy={100}
+            innerRadius={40}
+            outerRadius={60}
+            fill='rgba(48, 79, 253, 1)'
+            dataKey='value'
+            onMouseEnter={onPieEnter}
+          />
+        </PieChart>
+      </Box>
+    </Box>
   );
 }
-
+const rolesData = [
+  {
+    id: 0,
+    amount: "$8500",
+    img: "dashboard/$.svg",
+  },
+  { id: 1, amount: "$8500", img: "dashboard/updown.svg" },
+  { id: 2, amount: "$8500", img: "dashboard/man.svg" },
+];
 function CardsTop() {
   return (
-    <Card sx={{ boxShadow: 2 }}>
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          py: 2,
-        }}
-      >
-        <Grid container xs={12} spacing={3}>
-          <Grid item xs={9}>
-            <Typography
-              variant="subtitle1"
-              style={{ textAlign: "left" }}
-              textAlign="left"
-            >
-              Total Income
-            </Typography>
-
-            <Typography variant="h4" sx={{ mt: 2 }}>
-              $8,500
-            </Typography>
-          </Grid>
-          <Grid item xs={3} style={{ paddingBottom: 30 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "right",
-                justifyContent: "center",
-                backgroundColor: "orange",
-                borderRadius: "50%",
-                width: 60,
-                height: 60,
-              }}
-            >
-              <Typography variant="h3" sx={{ color: "white" }}>
-                $
-              </Typography>
-            </div>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+    <>
+      {rolesData.map((item, i) => (
+        <Card
+          sx={{
+            boxShadow: 2,
+            gap: "1rem",
+            display: "flex",
+          }}
+          key={item.id}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: "8rem",
+              padding: "1rem 3rem",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
+              <Box>
+                <Typography
+                  fontFamily={"Poppins"}
+                  fontSize='1.5rem'
+                  fontWeight={400}
+                >
+                  Total Income
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  fontFamily={"Poppins"}
+                  fontSize='3rem'
+                  fontWeight={500}
+                >
+                  $8,500
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <img src={item.img} />
+            </Box>
+          </Box>
+        </Card>
+      ))}
+    </>
   );
 }
 
@@ -179,8 +216,33 @@ function SalesCard() {
   return (
     <Card sx={{ boxShadow: 2 }}>
       <CardContent>
-        <Typography variant="subtitle1">Sales</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderRadius: "1rem",
+          }}
+        >
+          <Box>
+            <Typography
+              fontSize={"2.4rem"}
+              fontStyle={"Poppins"}
+              fontWeight={600}
+            >
+              Sales
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton>
+              <MoreHoriz variant='large ' />
+            </IconButton>
+          </Box>
+        </Box>
         <CustomPie />
+        <Box>
+          <FiberManualRecordOutlined fill={"#008000"} />
+        </Box>
       </CardContent>
     </Card>
   );
@@ -197,19 +259,18 @@ export default function Dashboard() {
     fetchData("http://localhost:5000/api/leads/list", setData3);
   }, []);
 
-
   console.log(roles, userData, currentRole, "here is data coming");
 
   const findUserRole = (roleIds, rolesData) => {
     if (!roleIds || !rolesData) {
       return []; // Return an empty array if roleIds or rolesData is undefined or null
     }
-  
-    const userRoles = roleIds.map(roleId =>
-      rolesData.find(role => role._id === roleId)
+
+    const userRoles = roleIds.map((roleId) =>
+      rolesData.find((role) => role._id === roleId)
     );
-  
-    return userRoles.map(role => role?.name);
+
+    return userRoles.map((role) => role?.name);
   };
 
   // useEffect(() => {
@@ -218,48 +279,54 @@ export default function Dashboard() {
   //     setCurrentRole(findUserRole(roleIds, roles));
   //   }
   // }, [roles, userData]);
-  
 
   return (
     <>
       <Container>
-        <Typography variant="h3">Welcome {userData?.user.name} </Typography>
-        <Typography variant="h3">Role {currentRole}  </Typography>
+        <Typography fontSize={"2.4rem"} fontFamily={"Poppins"} fontWeight={600}>
+          DashBoard{" "}
+        </Typography>
 
-        <Grid container xs={12} spacing={3}>
-          <Grid item xs={4}>
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              margin: "1rem 0",
+            }}
+          >
             <CardsTop />
+          </Box>
+        </Box>
+        <div style={{ marginTop: "20px" }} />
+        <Grid container xs={20} spacing={4}>
+          <Grid item xs={5}>
+            <BarChart />
           </Grid>
-          <Grid item xs={4}>
-            <CardsTop />
+
+          <Grid item xs={6}>
+            <LineChart />
           </Grid>
-          <Grid item xs={4}>
-            <CardsTop />
-          </Grid>
-        </Grid>
-        <div style={{ padding: "20px" }} />
-        <Grid container xs={12} spacing={4}>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <SalesCard />
           </Grid>
-          <Grid item xs={8}>
+          {/* <Grid item xs={8}>
             <Card>
               <CompossedLineBarArea />
             </Card>
+          </Grid> */}
+          <Grid item xs={6}>
+            <ApexChart />
           </Grid>
         </Grid>
-        <div style={{ padding: "20px" }} />
-        <Grid container spacing={3}>
-          <Typography variant="h3" alignContent="center">
-            User data
-          </Typography>
-
-          <ListRender type={"listType"} data={data2} setData={setData2} />
-          <Typography variant="h3" alignContent="center">
-            leads data
-          </Typography>
-          <ListRender type={"listType"} data={data3} setData={setData3} />
-        </Grid>
+        <Box sx={{ display: "flex", mt: "3rem", gap: "1rem" }}>
+          <Box>
+            <DataTable />
+          </Box>
+          <Box>
+            <Transaction />
+          </Box>
+        </Box>
       </Container>
     </>
   );

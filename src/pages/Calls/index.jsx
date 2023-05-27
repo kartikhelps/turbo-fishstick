@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   AppBar,
@@ -7,7 +7,15 @@ import {
   Typography,
   Button,
   Card,
+  Menu,
+  MenuItem,
+  Divider,
+  Box,
+  Tab,
+  Tabs,
+  LinearProgress,
 } from "@mui/material";
+import PropTypes from "prop-types";
 import MenuIcon from "@mui/icons-material/Menu";
 import useClipboard from "react-use-clipboard";
 import { ReactMic } from "react-mic";
@@ -28,6 +36,16 @@ const Calls = () => {
 
   const handleTabChange = (tabName) => {
     setSelectedTab(tabName);
+  };
+  const [fetchData, setFetchData] = React.useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [value, setValue] = React.useState(0);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const startRecording = () => {
@@ -94,35 +112,86 @@ const Calls = () => {
   };
 
   return (
-    <Grid container spacing={3}>
-      <Grid item container xs={3}>
-        <Grid container direction="column">
-          <Grid item xs={4}>
-            <Card>Grid A1</Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card>Grid A2</Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card>Grid A3</Card>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item container xs={9}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              MyApp
-            </Typography>
+    <>
+      <div className='main_lead_profile'>
+        <div className='sub_main_lead_profile'>
+          <div>
+            <div>
+              <Typography variant='h4' fontFamily={"Poppins"} fontWeight={500}>
+                Calls&gt;Recorded Calls&gt;Discussion on PX features
+              </Typography>
+            </div>
+
+            <div className={styles.sub_main_lead_sub}>
+              <div className={styles.sub_main_icon_typography}>
+                <div>
+                  <IconButton>
+                    <CorporateFare />
+                  </IconButton>
+                </div>
+                <div>
+                  <Typography
+                    variant='h5'
+                    fontFamily={"Poppins"}
+                    fontWeight={500}
+                  >
+                    ABC Corp
+                  </Typography>
+                </div>
+              </div>
+              <div className={styles.sub_main_icon_typography}>
+                <div>
+                  <IconButton>
+                    <CalendarMonth />
+                  </IconButton>
+                </div>
+                <div>
+                  {" "}
+                  <Typography
+                    variant='h5'
+                    fontFamily={"Poppins"}
+                    fontWeight={500}
+                  >
+                    January 24th 2023
+                  </Typography>
+                </div>
+              </div>
+              <div className={styles.sub_main_icon_typography}>
+                <div>
+                  <IconButton>
+                    <Schedule />
+                  </IconButton>
+                </div>
+                <div>
+                  <Typography
+                    variant='h5'
+                    fontFamily={"Poppins"}
+                    fontWeight={500}
+                  >
+                    3:00
+                  </Typography>
+                </div>
+              </div>
+              <div className={styles.sub_main_icon_typography}>
+                <div>
+                  <IconButton>
+                    <Schedule />
+                  </IconButton>
+                </div>
+                <div>
+                  <Typography
+                    variant='h5'
+                    fontFamily={"Poppins"}
+                    fontWeight={500}
+                  >
+                    30 Min
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
             <Button
               color="inherit"
               onClick={() => handleTabChange("upload")}
@@ -138,11 +207,10 @@ const Calls = () => {
             <Button color="inherit" onClick={() => handleTabChange("other")}>
               Other
             </Button>
-          </Toolbar>
-        </AppBar>
-        {renderContent()}
-      </Grid>
-    </Grid>
+          </div>
+        </div>
+        </div>
+        </>
   );
 };
 

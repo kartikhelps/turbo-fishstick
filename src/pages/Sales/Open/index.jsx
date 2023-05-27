@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, Pagination, Typography } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
 import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import axios from "axios";
+import { ArrowDropDownCircle } from "@mui/icons-material";
 function SalesOpen() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [fetchData, setFetchData] = React.useState([]);
@@ -72,8 +73,9 @@ function SalesOpen() {
                   color: "#fff",
                   borderRadius: "1.5rem",
                 }}
+                endIcon={<ArrowDropDownCircle />}
               >
-                Take Action
+                View
               </Button>
               <Menu
                 id='basic-menu'
@@ -83,11 +85,9 @@ function SalesOpen() {
                 MenuListProps={{
                   "aria-labelledby": "basic-button",
                 }}
-                sx={{ padding: "0 1rem" }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>Table View</MenuItem>
+                <MenuItem onClick={handleClose}>Kanban View</MenuItem>
               </Menu>
             </div>
             <div>
@@ -106,6 +106,7 @@ function SalesOpen() {
                   color: "#fff",
                   borderRadius: "1.5rem",
                 }}
+                endIcon={<ArrowDropDownCircle />}
               >
                 Take Action
               </Button>
@@ -118,11 +119,7 @@ function SalesOpen() {
                   "aria-labelledby": "basic-button",
                 }}
                 sx={{ padding: "0 1rem" }}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
+              ></Menu>
             </div>
             <div>
               <Button
@@ -135,28 +132,15 @@ function SalesOpen() {
                   fontFamily: "Poppins",
                   fontSize: "1.5rem",
                   fontWeight: 500,
-                  backgroundColor: "rgba(48, 79, 253, 1)",
+                  backgroundColor: "#fff",
                   padding: "1rem",
-                  color: "#fff",
+                  color: "#000",
                   borderRadius: "1.5rem",
                 }}
+                endIcon={<ArrowDropDownCircle />}
               >
-                Take Action
+                Export
               </Button>
-              <Menu
-                id='basic-menu'
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-                sx={{ padding: "0 1rem" }}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
             </div>
           </div>
         </div>
@@ -221,6 +205,15 @@ function SalesOpen() {
                 ))}
               </TableBody>
             </Table>
+            <Pagination
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              count={10}
+              shape='rounded'
+            />
           </TableContainer>
         </div>
       </div>

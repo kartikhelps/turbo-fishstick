@@ -6,7 +6,7 @@ const data = [
   { name: "Group A", value: 400 },
   { name: "Group B", value: 300 },
   { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 }
+  { name: "Group D", value: 200 },
 ];
 
 const renderActiveShape = () => {
@@ -22,7 +22,7 @@ const renderActiveShape = () => {
     fill,
     payload,
     percent,
-    value
+    value,
   } = props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
@@ -36,7 +36,7 @@ const renderActiveShape = () => {
 
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+      <text x={cx} y={cy} dy={8} textAnchor='middle' fill={fill}>
         {payload.name}
       </text>
       <Sector
@@ -60,21 +60,21 @@ const renderActiveShape = () => {
       <path
         d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
         stroke={fill}
-        fill="none"
+        fill='none'
       />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke='none' />
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
+        fill='#333'
       >{`PV ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill="#999"
+        fill='#999'
       >
         {`(Rate ${(percent * 100).toFixed(2)}%)`}
       </text>
@@ -101,8 +101,8 @@ export default function App() {
         cy={200}
         innerRadius={60}
         outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
+        fill='#8884d8'
+        dataKey='value'
         onMouseEnter={onPieEnter}
       />
     </PieChart>

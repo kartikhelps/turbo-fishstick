@@ -1,0 +1,38 @@
+.sub_main_lead_sub {
+  display: flex;
+}
+.sub_main_icon_typography {
+  display: flex;
+  align-items: center;
+}
+.sub_main_tabs_call {
+  width: 50%;
+  height: 70vh;
+  margin-top: 2rem;
+  border: 1px solid rgba(232, 233, 235, 1);
+  border-radius: 2.8rem;
+}
+.sub_main_main_info_call {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 50%;
+  background-color: #fff;
+  border: 1px solid rgba(232, 233, 235, 1);
+  border-radius: 1.4rem;
+}
+.call_data {
+  display: flex;
+  flex-direction: column;
+}
+.call_progress_bar {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.video_player {
+  margin-left: 2rem;
+}

@@ -9,6 +9,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import DealInfo from "./Deal_Info";
 import axios from "axios";
+import { Inbox } from "@mui/icons-material";
 
 const data = [
   "ABC Corp.",
@@ -109,11 +110,12 @@ function LeadProfile() {
             MenuListProps={{
               "aria-labelledby": "basic-button",
             }}
-            sx={{ padding: "0 1rem" }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleClose}>Call</MenuItem>
+            <MenuItem onClick={handleClose}>Email</MenuItem>
+            <MenuItem onClick={handleClose}>Meeting</MenuItem>
+            <MenuItem onClick={handleClose}>Task</MenuItem>
+            <MenuItem onClick={handleClose}>Message</MenuItem>
           </Menu>
         </div>
       </div>

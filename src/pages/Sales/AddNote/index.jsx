@@ -55,17 +55,8 @@ function AddNote() {
                 aria-haspopup='true'
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
-                sx={{
-                  fontFamily: "Poppins",
-                  fontSize: "1.5rem",
-                  fontWeight: 500,
-                  backgroundColor: "rgba(48, 79, 253, 1)",
-                  padding: "1rem",
-                  color: "#fff",
-                  borderRadius: "1.5rem",
-                }}
               >
-                Take Action
+                View
               </Button>
               <Menu
                 id='basic-menu'
@@ -75,11 +66,9 @@ function AddNote() {
                 MenuListProps={{
                   "aria-labelledby": "basic-button",
                 }}
-                sx={{ padding: "0 1rem" }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>Table View</MenuItem>
+                <MenuItem onClick={handleClose}>Kanban View</MenuItem>
               </Menu>
             </div>
             <div>
