@@ -12,6 +12,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import useClipboard from "react-use-clipboard";
 import { ReactMic } from "react-mic";
 import axios from "axios";
+import UploadAudio from "./UploadAudio";
+import AudioRecorder from "./AudioRecorder";
 
 const Your_API_Token = "14b81d0a285c4525b799a1327ebd2ab3";
 
@@ -73,34 +75,15 @@ const Calls = () => {
 
   const renderContent = () => {
     switch (selectedTab) {
-      case "call-info":
+      case "upload":
         return (
           <div className="container">
             Call Info content
-            <>
-              <ReactMic
-                record={record}
-                className="sound-wave"
-                onStop={onStop}
-                onData={onData}
-                strokeColor="#000000"
-                backgroundColor="#FF4081"
-              />
-              <div className="btn-style">
-                <button onClick={setCopied}>
-                  {isCopied ? "Copied!" : "Copy to clipboard"}
-                </button>
-                <button onClick={startRecording}>Start Recording</button>
-                <button onClick={stopRecording}>Stop Recording</button>
-              </div>
-              {recordedAudioURL && (
-                <audio src={recordedAudioURL} controls />
-              )}
-            </>
+            <UploadAudio/>
           </div>
         );
-      case "comments":
-        return <div>Comments content</div>;
+      case "record":
+        return <div> <AudioRecorder/> </div>;
       case "notes":
         return <div>Notes content</div>;
       case "other":
@@ -142,12 +125,12 @@ const Calls = () => {
             </Typography>
             <Button
               color="inherit"
-              onClick={() => handleTabChange("call-info")}
+              onClick={() => handleTabChange("upload")}
             >
-              Call Info
+              Upload 
             </Button>
-            <Button color="inherit" onClick={() => handleTabChange("comments")}>
-              Comments
+            <Button color="inherit" onClick={() => handleTabChange("record")}>
+              Live Record 
             </Button>
             <Button color="inherit" onClick={() => handleTabChange("notes")}>
               Notes
