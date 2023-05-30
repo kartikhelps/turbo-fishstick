@@ -9,6 +9,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import DealInfo from "./Deal_Info";
 import axios from "axios";
+import { fetchData } from "../../Dashboard";
+import ListRender from "../../../components/ListRender";
 
 const data = [
   "ABC Corp.",
@@ -26,7 +28,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -53,7 +55,7 @@ function a11yProps(index) {
   };
 }
 function LeadProfile() {
-  const [fetchData, setFetchData] = React.useState([]);
+  const [listData, setlistData] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(0);
   const open = Boolean(anchorEl);
@@ -69,24 +71,28 @@ function LeadProfile() {
   };
 
   useEffect(() => {
+    fetchData("http://localhost:5000/api/leads/list", setlistData);
+  }, []);
+
+  useEffect(() => {
     axios
       .get(`localhost:5000/api/sales/list`)
       .then((response) => setFetchData(response.data))
       .catch((error) => console.error(error));
   }, []);
   return (
-    <div className='main_lead_profile'>
-      <div className='sub_main_lead_profile'>
+    <div className="main_lead_profile">
+      <div className="sub_main_lead_profile">
         <div>
-          <Typography variant='h4' fontFamily={"Poppins"} fontWeight={500}>
+          <Typography variant="h4" fontFamily={"Poppins"} fontWeight={500}>
             Manage Leads&gt;Lead XYZ -Info{" "}
           </Typography>
         </div>
         <div>
           <Button
-            id='basic-button'
+            id="basic-button"
             aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup='true'
+            aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
             sx={{
@@ -102,7 +108,7 @@ function LeadProfile() {
             Take Action
           </Button>
           <Menu
-            id='basic-menu'
+            id="basic-menu"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
@@ -117,13 +123,13 @@ function LeadProfile() {
           </Menu>
         </div>
       </div>
-      <div className='sub_main_main_lead_profile'>
-        <div className='sub_main_main_info'>
-          <div className='sub_main_main_info_info'>
+      <div className="sub_main_main_lead_profile">
+        <div className="sub_main_main_info">
+          <div className="sub_main_main_info_info">
             <div>
-              <img src='/sales/Ellipse.svg' />
+              <img src="/sales/Ellipse.svg" />
             </div>
-            <div className='sub_main_main_info_info_text'>
+            <div className="sub_main_main_info_info_text">
               <div>
                 <Typography
                   fontSize={"3.2rem"}
@@ -146,11 +152,11 @@ function LeadProfile() {
             </div>
 
             <div>
-              <img src='/sales/edit.svg' />
+              <img src="/sales/edit.svg" />
             </div>
           </div>
-          <Divider variant='middle' />
-          <div className='company_info'>
+          <Divider variant="middle" />
+          <div className="company_info">
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -239,8 +245,8 @@ function LeadProfile() {
               </div>
             </div>
           </div>
-          <Divider variant='middle' />
-          <div className='lead_info'>
+          <Divider variant="middle" />
+          <div className="lead_info">
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -413,8 +419,8 @@ function LeadProfile() {
               </div>
             </div>
           </div>
-          <Divider variant='middle' />
-          <div className='company_info'>
+          <Divider variant="middle" />
+          <div className="company_info">
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -424,9 +430,9 @@ function LeadProfile() {
                 Primary CLient POC
               </Typography>
             </div>
-            <div className='sales_manager_info'>
+            <div className="sales_manager_info">
               <div>
-                <img src='/sales/salesmanager.svg' />
+                <img src="/sales/salesmanager.svg" />
               </div>
               <div>
                 <div>
@@ -508,8 +514,8 @@ function LeadProfile() {
               </div>
             </div>
           </div>
-          <Divider variant='middle' />
-          <div className='company_info'>
+          <Divider variant="middle" />
+          <div className="company_info">
             <div>
               <Typography
                 fontSize={"1.5rem"}
@@ -519,10 +525,10 @@ function LeadProfile() {
                 OTHER CONTACTS
               </Typography>
             </div>
-            <div className='other_contact_info'>
-              <div className='other_contact_info_info'>
+            <div className="other_contact_info">
+              <div className="other_contact_info_info">
                 <div>
-                  <img src='/sales/salesmanager.svg' />
+                  <img src="/sales/salesmanager.svg" />
                 </div>
                 <div>
                   <div>
@@ -547,9 +553,9 @@ function LeadProfile() {
                 </div>
               </div>
 
-              <div className='other_contact_info_info'>
+              <div className="other_contact_info_info">
                 <div>
-                  <img src='/sales/salesmanager.svg' />
+                  <img src="/sales/salesmanager.svg" />
                 </div>
                 <div>
                   <div>
@@ -573,9 +579,9 @@ function LeadProfile() {
                   </div>
                 </div>
               </div>
-              <div className='other_contact_info_info'>
+              <div className="other_contact_info_info">
                 <div>
-                  <img src='/sales/salesmanager.svg' />
+                  <img src="/sales/salesmanager.svg" />
                 </div>
                 <div>
                   <div>
@@ -602,33 +608,33 @@ function LeadProfile() {
             </div>
           </div>
         </div>
-        <div className='sub_main_tabs'>
+        <div className="sub_main_tabs">
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='basic tabs example'
+                aria-label="basic tabs example"
                 sx={{ margin: "0 2rem" }}
               >
                 <Tab
                   sx={{ margin: "0 7rem" }}
-                  label=' DEAL INFO'
+                  label=" DEAL INFO"
                   {...a11yProps(0)}
                 />
                 <Tab
                   sx={{ margin: "0 7rem" }}
-                  label=' ACTIVITY HISTORY'
+                  label=" ACTIVITY HISTORY"
                   {...a11yProps(1)}
                 />
                 <Tab
                   sx={{ margin: "0 7rem" }}
-                  label=' ATTACHMENTS'
+                  label=" ATTACHMENTS"
                   {...a11yProps(2)}
                 />
                 <Tab
                   sx={{ margin: "0 7rem" }}
-                  label='COACHING'
+                  label="COACHING"
                   {...a11yProps(3)}
                 />
               </Tabs>
@@ -648,6 +654,10 @@ function LeadProfile() {
           </Box>
         </div>
       </div>
+      <Typography variant="h3" alignContent="center">
+        leads data
+      </Typography>
+      <ListRender type={"listType"} data={listData} setData={setlistData} />
     </div>
   );
 }

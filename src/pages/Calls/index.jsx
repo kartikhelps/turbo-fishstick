@@ -18,7 +18,7 @@ import AudioRecorder from "./AudioRecorder";
 const Your_API_Token = "14b81d0a285c4525b799a1327ebd2ab3";
 
 const Calls = () => {
-  const [selectedTab, setSelectedTab] = useState("call-info");
+  const [selectedTab, setSelectedTab] = useState("record");
   const [textToCopy, setTextToCopy] = useState();
   const [isCopied, setCopied] = useClipboard(textToCopy, {
     successDuration: 1000,

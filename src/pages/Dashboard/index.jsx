@@ -189,7 +189,7 @@ function SalesCard() {
 export default function Dashboard() {
   const [data2, setData2] = useState([]);
   const [data3, setData3] = useState([]);
-  const [currentRole, setCurrentRole] = useState("agent");
+  const [currentRole, setCurrentRole] = useState("");
   const { roles, userData } = useContext(AuthContext);
 
   useEffect(() => {
@@ -197,35 +197,27 @@ export default function Dashboard() {
     fetchData("http://localhost:5000/api/leads/list", setData3);
   }, []);
 
-
   console.log(roles, userData, currentRole, "here is data coming");
 
   const findUserRole = (roleIds, rolesData) => {
     if (!roleIds || !rolesData) {
       return []; // Return an empty array if roleIds or rolesData is undefined or null
     }
-  
-    const userRoles = roleIds.map(roleId =>
-      rolesData.find(role => role._id === roleId)
+
+    const userRoles = roleIds.map((roleId) =>
+      rolesData.find((role) => role._id === roleId)
     );
-  
-    return userRoles.map(role => role?.name);
+
+    return userRoles.map((role) => role?.name);
   };
 
-  // useEffect(() => {
-  //   if (roles && userData) {
-  //     const roleIds = userData.roles || []; // Extract role IDs from userData
-  //     setCurrentRole(findUserRole(roleIds, roles));
-  //   }
-  // }, [roles, userData]);
-  
+  console.log(roles, "here is coming roles");
 
   return (
     <>
       <Container>
         <Typography variant="h3">Welcome {userData?.user.name} </Typography>
-        <Typography variant="h3">Role {currentRole}  </Typography>
-
+        <Typography variant="h3">Role {currentRole} </Typography>
         <Grid container xs={12} spacing={3}>
           <Grid item xs={4}>
             <CardsTop />
@@ -253,12 +245,7 @@ export default function Dashboard() {
           <Typography variant="h3" alignContent="center">
             User data
           </Typography>
-
           <ListRender type={"listType"} data={data2} setData={setData2} />
-          <Typography variant="h3" alignContent="center">
-            leads data
-          </Typography>
-          <ListRender type={"listType"} data={data3} setData={setData3} />
         </Grid>
       </Container>
     </>
