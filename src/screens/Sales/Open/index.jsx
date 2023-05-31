@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 import React, { useEffect } from "react";
-import styles from "./index.module.css";
 import axios from "axios";
 function SalesOpen() {
   const [anchorEl, setAnchorEl] = React.useState(null);

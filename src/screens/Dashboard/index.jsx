@@ -98,7 +98,7 @@ export default function Dashboard() {
             <CardsTop />
           </Grid>
         </Grid>
-        <div className="" style={{ padding: "20px" }} />
+        <div className=" " style={{ padding: "20px" }} />
         <Grid
           container
           xs={12}

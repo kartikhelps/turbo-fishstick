@@ -12,6 +12,7 @@ import axios from "axios";
 import { fetchData } from "../../Dashboard";
 import ListRender from "../../../components/ListRender";
 
+
 const data = [
   "ABC Corp.",
   "www.abcorp.in",
@@ -652,12 +653,14 @@ function LeadProfile() {
               <DealInfo />
             </TabPanel>
           </Box>
+          <div className="Leads_container">
+          <Typography className="lead_heading" variant="h3" alignContent="center">
+            Leads Data
+          </Typography>
+          <ListRender className="lead_table" type={"listType"} data={listData} setData={setlistData} />
+          </div>
         </div>
       </div>
-      <Typography variant="h3" alignContent="center">
-        leads data
-      </Typography>
-      <ListRender type={"listType"} data={listData} setData={setlistData} />
     </div>
   );
 }
