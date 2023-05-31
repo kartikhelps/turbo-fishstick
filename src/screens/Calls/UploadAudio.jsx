@@ -58,12 +58,7 @@ const UploadAudio = () => {
     }
   };
 
-  useEffect(() => {
-    if (setTranscript2) {
-      setSpeaker1(setTranscript2.full_transcript.utterances[0]);
-      setSpeaker2(setTranscript2.full_transcript.utterances[1]);
-    }
-  }, [setTranscript2]);
+
 
   console.log("here is all transcript", transcript2);
 
@@ -84,8 +79,8 @@ const UploadAudio = () => {
           <Typography variant="h3">{transcript}</Typography>
         </div>
       )}
-      {<Typography variant="h4"> Speaker 1:{speaker1} </Typography>}
-      {<Typography variant="h4"> Speaker 2:{speaker2} </Typography>}
+      {/* {<Typography variant="h4"> Speaker 1:{speaker1} </Typography>} */}
+      {/* {<Typography variant="h4"> Speaker 2:{speaker2} </Typography>} */}
     </div>
   );
 };

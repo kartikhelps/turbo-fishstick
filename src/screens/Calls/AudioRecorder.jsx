@@ -60,7 +60,6 @@ const AudioRecorder = () => {
           if (xhr.status === 200) {
             const data = JSON.parse(xhr.responseText);
             if (data.transcript) {
-              // Handle the transcript response here
               console.log("Transcript:", data);
               setTranscriptAll(data);
               setTranscript(data.transcript);
@@ -75,9 +74,10 @@ const AudioRecorder = () => {
       xhr.send(formData);
     }
   };
+
   useEffect(() => {
     console.log(transcriptAll, "here it is");
-    if (transcriptAll) {
+    if (transcriptAll && transcriptAll.full_transcript) {
       setSpeaker1(transcriptAll.full_transcript.utterances[0]);
       setSpeaker2(transcriptAll.full_transcript.utterances[1]);
     }
@@ -111,9 +111,19 @@ const AudioRecorder = () => {
         Upload Audio
       </Button>
       {uploadProgress > 0 && <div>Upload Progress: {uploadProgress}%</div>}
-      {<Typography variant="h4"> Speaker 1:{speaker1} </Typography>}
-      {<Typography variant="h4"> Speaker 2:{speaker2} </Typography>}
       {transcript && <Typography variant="h3"> {transcript} </Typography>}
+      {speaker1 && (
+        <Typography variant="h4">
+          {" "}
+          Speaker 1: {speaker1.speaker} said: {speaker1.text}{" "}
+        </Typography>
+      )}
+      {speaker2 && (
+        <Typography variant="h4">
+          {" "}
+          Speaker 2: {speaker2.speaker} said: {speaker2.text}{" "}
+        </Typography>
+      )}
     </div>
   );
 };

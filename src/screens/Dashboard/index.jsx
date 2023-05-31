@@ -3,13 +3,17 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import React, { useCallback, useState, useEffect } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, LineChart } from "recharts";
+import LineChartX from "./Charts/LineCharts";
 // import ListRender from "../../assets/Dashboard/ListRender";
 import ListRender from "../../components/ListRender";
 import CompossedLineBarArea from "./CustomCharts";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import BarChart from "./Charts/BarCharts";
+import ApexChart from "./Charts/ApexCharts";
+// import data1 from "./sampleData";
 
 const data = [
   { name: "Group A", value: 400 },
@@ -218,7 +222,7 @@ export default function Dashboard() {
       <Container>
         <Typography variant="h3">Welcome {userData?.user.name} </Typography>
         <Typography variant="h3">Role {currentRole} </Typography>
-        <Grid container xs={12} spacing={3}>
+        <Grid container xs={12} spacing={3} justifyContent="space-around">
           <Grid item xs={4}>
             <CardsTop />
           </Grid>
@@ -230,22 +234,27 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <div style={{ padding: "20px" }} />
-        <Grid container xs={12} spacing={4}>
-          <Grid item xs={4}>
+        <Grid
+          container
+          xs={12}
+          spacing={2}
+          alignItems="center"
+          justifyContent="space-around"
+        >
+          <Grid item xs={5}>
+            <BarChart />
+          </Grid>
+
+          <Grid item xs={6}>
+            <LineChartX />
+          </Grid>
+          <Grid item xs={5}>
             <SalesCard />
           </Grid>
-          <Grid item xs={8}>
-            <Card>
-              <CompossedLineBarArea />
-            </Card>
+
+          <Grid item xs={6}>
+            <ApexChart />
           </Grid>
-        </Grid>
-        <div style={{ padding: "20px" }} />
-        <Grid container spacing={3}>
-          <Typography variant="h3" alignContent="center">
-            User data
-          </Typography>
-          <ListRender type={"listType"} data={data2} setData={setData2} />
         </Grid>
       </Container>
     </>

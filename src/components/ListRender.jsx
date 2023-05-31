@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  Box,
   Button,
-  InputLabel,
-  Stack,
-  TextField,
-  Select,
-  MenuItem,
-  Slider,
-  Modal,
   Typography,
   TableContainer,
   Paper,
@@ -29,19 +21,6 @@ import axios from "axios";
 import CustomDialog from "./CustomDialog";
 import { useContext } from "react";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90rem",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
 
 const ListRender = ({ type, data, setData }) => {
   const [delModal, setDelModal] = useState(false);
@@ -114,12 +93,12 @@ const ListRender = ({ type, data, setData }) => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: "#616161" }}>
+              <TableRow className="#">
                 <TableCell align="center">
                   {type === "img" ? <AttachMoneyIcon /> : "id"}
                 </TableCell>
                 {fieldsName.map((field) => (
-                  <TableCell key={field} align="center">
+                  <TableCell className="lead-header" key={field} align="center">
                     {field}
                   </TableCell>
                 ))}
@@ -130,7 +109,7 @@ const ListRender = ({ type, data, setData }) => {
             </TableHead>
             <TableBody>
               {data.map((student, i) => (
-                <TableRow key={i}>
+                <TableRow key={i} className="lead-table-contents" >
                   <TableCell align="center">
                     {type === "img" ? (
                       <AccountCircleIcon fontSize="large" />
