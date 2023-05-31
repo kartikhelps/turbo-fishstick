@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Grid,
   AppBar,
@@ -13,15 +13,15 @@ import {
   Box,
   Tab,
   Tabs,
+  CircularProgress,
+  // CircularProgressLabel,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import MenuIcon from "@mui/icons-material/Menu";
 import axios from "axios";
 import VideoImg from "./Video.jpg";
-import { CalendarMonth, CorporateFare, Schedule } from "@mui/icons-material";
+// import UploadAudio from "./UploadAudio";
 
-// import DealInfo from "./DealInfo";
-const Your_API_Token = "14b81d0a285c4525b799a1327ebd2ab3";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -98,8 +98,129 @@ const Calls2 = () => {
     "26 January 2023 4:55 PM",
   ];
 
+  const [recording, setRecording] = useState(false);
+  const [file, setFile] = useState(null);
+
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [transcript, setTranscript] = useState(null);
+  const [transcriptAll, setTranscriptAll] = useState(null);
+  const [speaker1, setSpeaker1] = useState();
+  const [speaker2, setSpeaker2] = useState();
+  const mediaRecorderRef = useRef(null);
+  const audioRef = useRef(null);
+
+  const startRecording = () => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+
+        const chunks = [];
+        mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: "audio/wav" });
+          setAudioBlob(blob);
+          chunks.length = 0;
+        };
+
+        mediaRecorder.start();
+        setRecording(true);
+      })
+      .catch((error) => {
+        console.error("Error accessing microphone:", error);
+      });
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  };
+
+  const handleUpload = () => {
+    if (audioBlob) {
+      const formData = new FormData();
+      formData.append("file", audioBlob);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://testrepo.nextsolutions.in/STTupload");
+
+      xhr.upload.addEventListener("progress", (event) => {
+        const progress = Math.round((event.loaded / event.total) * 100);
+        setUploadProgress(progress);
+      });
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            if (data.transcript) {
+              console.log("Transcript:", data);
+              setTranscriptAll(data);
+              setTranscript(data.transcript);
+            }
+          } else {
+            console.error("Upload failed:", xhr.status);
+          }
+          setUploadProgress(0);
+        }
+      };
+
+      xhr.send(formData);
+    }
+  };
+
+  useEffect(() => {
+    console.log(transcriptAll, "here it is");
+    if (transcriptAll && transcriptAll.full_transcript) {
+      setSpeaker1(transcriptAll.full_transcript.utterances[0]);
+      setSpeaker2(transcriptAll.full_transcript.utterances[1]);
+    }
+  }, [transcriptAll]);
+
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const onFileUpload = () => {
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://testrepo.nextsolutions.in/STTupload");
+
+    xhr.upload.addEventListener("progress", (event) => {
+      const progress = Math.round((event.loaded / event.total) * 100);
+      setUploadProgress(progress);
+    });
+
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          const data = JSON.parse(xhr.responseText);
+          if (data.transcript) {
+            setTranscript(data.transcript);
+          }
+        } else {
+          console.error("Upload failed:", xhr.status);
+        }
+        setUploadProgress(0);
+      }
+    };
+
+    xhr.send(formData);
+  };
+
   return (
     <>
+      <h1>Transcribing audio</h1>
       <div className="main_lead_profile">
         <div>
           <div className="sub_main_main_lead_profile">
@@ -111,10 +232,77 @@ const Calls2 = () => {
                     alt="see pic"
                     className="background-image"
                   />
-                <Button   className="overlay-button" variant="contained">
-                  {" "}
-                  Upload Audio{" "}
-                </Button>
+                  {value === 0 ? (
+                    <>
+                      <Button
+                        variant="contained"
+                        className="overlay-button"
+                        onClick={startRecording}
+                        disabled={recording}
+                      >
+                        Start Recording
+                      </Button>
+                      <Button
+                        variant="contained"
+                        className="overlay-button"
+                        onClick={stopRecording}
+                        disabled={!recording}
+                      >
+                        Stop Recording
+                      </Button>
+
+                      <Button
+                        variant="contained"
+                        className="overlay-button"
+                        onClick={handleUpload}
+                        disabled={!audioBlob || uploadProgress > 0}
+                      >
+                        Upload Audio
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <input type="file" onChange={onFileChange} />
+                      <Button
+                        variant="contained"
+                        className="overlay-button"
+                        onClick={onFileUpload}
+                        disabled={!file || uploadProgress > 0}
+                      >
+                        Upload
+                      </Button>
+                      {uploadProgress > 0 && (
+                        <Box position="relative" display="inline-flex">
+                          <CircularProgress
+                            variant="determinate"
+                            value={uploadProgress}
+                          />
+                          <Box
+                            top={0}
+                            left={0}
+                            bottom={0}
+                            right={0}
+                            position="absolute"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            <div>
+                              {uploadProgress}%
+                            </div>
+                          </Box>
+                        </Box>
+                      )}
+                      <Button
+                        variant="contained"
+                        className="overlay-button"
+                        onClick={handleUpload}
+                        disabled={!file || uploadProgress > 0}
+                      >
+                        Get Transcript
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
               <Divider variant="middle" />
@@ -128,11 +316,37 @@ const Calls2 = () => {
                     CALL DATA
                   </Typography>
                 </div>
-                <div>🟢Speaker 1:</div>
-                <div>🟣Speaker 2:</div>
               </div>
 
-              <div className="company_info">{/* transcript */}</div>
+              <div className="company_info">
+                {value === 0 ? (
+                  <>
+                    {speaker1 && (
+                      <Typography variant="h4">
+                        🟢Speaker 1: {speaker1.speaker} said: {speaker1.text}
+                      </Typography>
+                    )}
+                    {speaker2 && (
+                      <Typography variant="h4">
+                        🟣Speaker 2: {speaker2.speaker} said: {speaker2.text}
+                      </Typography>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {speaker1 && (
+                      <Typography variant="h4">
+                        🟢Speaker: {speaker1.speaker} said: {speaker1.text}
+                      </Typography>
+                    )}
+                    {speaker2 && (
+                      <Typography variant="h4">
+                        🟣Speaker: {speaker2.speaker} said: {speaker2.text}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
             <div className="sub_main_tabs_call">
               <Box className="tabs_main">
@@ -151,23 +365,22 @@ const Calls2 = () => {
 
                     <Tab
                       sx={{ margin: "0 3rem" }}
-                      label="Upload Existing Audio "
+                      label="Upload Existing Audio"
                       {...a11yProps(1)}
                     />
                   </Tabs>
                 </Box>
-                {/* <TabPanel value={value} index={0}>
-                  <DealInfo />
+                <TabPanel value={value} index={0}>
+                  <h1>Full Transcript</h1>
+                  {transcript && (
+                    <Typography variant="h4">{transcript}</Typography>
+                  )}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  <DealInfo />
+                  {transcript && (
+                    <Typography variant="h4">{transcript}</Typography>
+                  )}
                 </TabPanel>
-                <TabPanel value={value} index={2}>
-                  <DealInfo />
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                  <DealInfo />
-                </TabPanel> */}
               </Box>
             </div>
           </div>
