@@ -13,6 +13,9 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import BarChart from "./Charts/BarCharts";
 import ApexChart from "./Charts/ApexCharts";
+import PieChartX from "./Charts/Donought";
+// import { Doughnut } from "react-chartjs-2";
+import DoughnutChartX from "./Charts/Donought";
 // import data1 from "./sampleData";
 
 const data = [
@@ -31,78 +34,6 @@ export async function fetchData(url, setData) {
   }
 }
 
-const renderActiveShape = (props) => {
-  const RADIAN = Math.PI / 180;
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-    payload,
-    percent,
-    value,
-  } = props;
-  const sin = Math.sin(-RADIAN * midAngle);
-  const cos = Math.cos(-RADIAN * midAngle);
-  const sx = cx + (outerRadius + 10) * cos;
-  const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
-  const my = cy + (outerRadius + 30) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-  const ey = my;
-  const textAnchor = cos >= 0 ? "start" : "end";
-
-  return (
-    <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={"green"}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-      {/* <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      /> */}
-      {/* <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" /> */}
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        textAnchor={textAnchor}
-        fill="#333"
-      >{`PV ${value}`}</text>
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        dy={18}
-        textAnchor={textAnchor}
-        fill="#999"
-      >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
-      </text>
-    </g>
-  );
-};
 
 export function CustomPie() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -179,17 +110,6 @@ function CardsTop() {
   );
 }
 
-function SalesCard() {
-  return (
-    <Card sx={{ boxShadow: 2 }}>
-      <CardContent>
-        <Typography variant="subtitle1">Sales</Typography>
-        <CustomPie />
-      </CardContent>
-    </Card>
-  );
-}
-
 export default function Dashboard() {
   const [data2, setData2] = useState([]);
   const [data3, setData3] = useState([]);
@@ -233,7 +153,7 @@ export default function Dashboard() {
             <CardsTop />
           </Grid>
         </Grid>
-        <div style={{ padding: "20px" }} />
+        <div className="" style={{ padding: "20px" }} />
         <Grid
           container
           xs={12}
@@ -249,7 +169,7 @@ export default function Dashboard() {
             <LineChartX />
           </Grid>
           <Grid item xs={5}>
-            <SalesCard />
+            <DoughnutChartX />
           </Grid>
 
           <Grid item xs={6}>
