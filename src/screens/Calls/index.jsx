@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useClipboard from "react-use-clipboard";
-import { ReactMic } from "react-mic";
+// import { ReactMic } from "react-mic";
 import axios from "axios";
 import UploadAudio from "./UploadAudio";
 import AudioRecorder from "./AudioRecorder";

@@ -2,28 +2,15 @@ import { Container, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import React, { useCallback, useState, useEffect } from "react";
-import { PieChart, Pie, Sector, LineChart } from "recharts";
+import React, { useState, useEffect } from "react";
 import LineChartX from "./Charts/LineCharts";
-// import ListRender from "../../assets/Dashboard/ListRender";
-import ListRender from "../../components/ListRender";
-import CompossedLineBarArea from "./CustomCharts";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import BarChart from "./Charts/BarCharts";
 import ApexChart from "./Charts/ApexCharts";
-import PieChartX from "./Charts/Donought";
-// import { Doughnut } from "react-chartjs-2";
 import DoughnutChartX from "./Charts/Donought";
-// import data1 from "./sampleData";
-
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
-];
+// import "./CardsTop.css";
 
 export async function fetchData(url, setData) {
   try {
@@ -34,37 +21,9 @@ export async function fetchData(url, setData) {
   }
 }
 
-
-export function CustomPie() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const onPieEnter = useCallback(
-    (_, index) => {
-      setActiveIndex(index);
-    },
-    [setActiveIndex]
-  );
-
-  return (
-    <PieChart width={300} height={300}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={200}
-        cy={200}
-        innerRadius={60}
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
-  );
-}
-
 function CardsTop() {
   return (
-    <Card sx={{ boxShadow: 2 }}>
+    <Card sx={{ boxShadow: 2 }} className="card-root">
       <CardContent
         sx={{
           display: "flex",
@@ -73,11 +32,11 @@ function CardsTop() {
           py: 2,
         }}
       >
-        <Grid container xs={12} spacing={3}>
+        <Grid container xs={12} spacing={3} className="card-grid">
           <Grid item xs={9}>
             <Typography
               variant="subtitle1"
-              style={{ textAlign: "left" }}
+              className="grid-text-1"
               textAlign="left"
             >
               Total Income
@@ -87,22 +46,8 @@ function CardsTop() {
               $8,500
             </Typography>
           </Grid>
-          <Grid item xs={3} style={{ paddingBottom: 30 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "right",
-                justifyContent: "center",
-                backgroundColor: "orange",
-                borderRadius: "50%",
-                width: 60,
-                height: 60,
-              }}
-            >
-              <Typography variant="h3" sx={{ color: "white" }}>
-                $
-              </Typography>
-            </div>
+          <Grid item xs={3}>
+            <div className="circle-div">$</div>
           </Grid>
         </Grid>
       </CardContent>
