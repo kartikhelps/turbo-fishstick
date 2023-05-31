@@ -19,6 +19,7 @@ import Signup from "./screens/Login/Signup";
 import AddNote from "./screens/Sales/AddNote";
 import { useState, useEffect } from "react";
 import SalesOpen from "./screens/Sales/Open";
+import Calls2 from "./screens/Calls/Calls2";
 // import { useLocation } from "react-router-dom";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/widget' element={<Widget />} />
               <Route path='/calls' element={<Calls />} />
+              <Route path='/calls2' element={<Calls2 />} />
               <Route path='/sales/lead_profile' element={<LeadProfile />} />
               <Route path='/sales/open' element={<SalesOpen />} />
               <Route path='/sales/closed' element={<AddNote />} />
