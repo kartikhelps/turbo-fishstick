@@ -1,11 +1,14 @@
 import { Button, Typography } from "@mui/material";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [transcript,setTranscript]=useState(null)
+  const [transcript, setTranscript] = useState(null);
+  const [transcriptAll, setTranscriptAll] = useState(null);
+  const [speaker1, setSpeaker1] = useState();
+  const [speaker2, setSpeaker2] = useState();
   const mediaRecorderRef = useRef(null);
   const audioRef = useRef(null);
 
@@ -57,9 +60,9 @@ const AudioRecorder = () => {
           if (xhr.status === 200) {
             const data = JSON.parse(xhr.responseText);
             if (data.transcript) {
-              // Handle the transcript response here
               console.log("Transcript:", data);
-              setTranscript(data.transcript)
+              setTranscriptAll(data);
+              setTranscript(data.transcript);
             }
           } else {
             console.error("Upload failed:", xhr.status);
@@ -72,23 +75,55 @@ const AudioRecorder = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(transcriptAll, "here it is");
+    if (transcriptAll && transcriptAll.full_transcript) {
+      setSpeaker1(transcriptAll.full_transcript.utterances[0]);
+      setSpeaker2(transcriptAll.full_transcript.utterances[1]);
+    }
+  }, [transcriptAll]);
+
   return (
-    <div style={{padding:"10px"}}>
-      <Button variant="contained" color="primary" onClick={startRecording} disabled={recording}>
+    <div style={{ padding: "10px" }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={startRecording}
+        disabled={recording}
+      >
         Start Recording
       </Button>
-      <Button variant="contained" color="primary" onClick={stopRecording} disabled={!recording}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={stopRecording}
+        disabled={!recording}
+      >
         Stop Recording
       </Button>
 
-      <Button variant="contained" color="primary"
+      <Button
+        variant="contained"
+        color="primary"
         onClick={handleUpload}
         disabled={!audioBlob || uploadProgress > 0}
       >
         Upload Audio
       </Button>
       {uploadProgress > 0 && <div>Upload Progress: {uploadProgress}%</div>}
-      {transcript&&<Typography variant="h3"> {transcript} </Typography> }
+      {transcript && <Typography variant="h3"> {transcript} </Typography>}
+      {speaker1 && (
+        <Typography variant="h4">
+          {" "}
+          Speaker 1: {speaker1.speaker} said: {speaker1.text}{" "}
+        </Typography>
+      )}
+      {speaker2 && (
+        <Typography variant="h4">
+          {" "}
+          Speaker 2: {speaker2.speaker} said: {speaker2.text}{" "}
+        </Typography>
+      )}
     </div>
   );
 };

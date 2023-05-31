@@ -1,10 +1,13 @@
 import { Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const UploadAudio = () => {
   const [file, setFile] = useState(null);
   const [transcript, setTranscript] = useState("");
+  const [transcript2, setTranscript2] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [speaker1, setSpeaker1] = useState();
+  const [speaker2, setSpeaker2] = useState();
 
   const onFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -49,10 +52,15 @@ const UploadAudio = () => {
     );
     const data = await response.json();
 
-    if (data.transcript) {
+    if (data) {
       setTranscript(data.transcript);
+      setTranscript2(data);
     }
   };
+
+
+
+  console.log("here is all transcript", transcript2);
 
   return (
     <div>
@@ -71,6 +79,8 @@ const UploadAudio = () => {
           <Typography variant="h3">{transcript}</Typography>
         </div>
       )}
+      {/* {<Typography variant="h4"> Speaker 1:{speaker1} </Typography>} */}
+      {/* {<Typography variant="h4"> Speaker 2:{speaker2} </Typography>} */}
     </div>
   );
 };

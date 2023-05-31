@@ -6,19 +6,19 @@ import {
 } from "react-router-dom";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-import Calls from "./pages/Calls";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import LeadProfile from "./pages/Sales/LeadProfile";
-import { Widget } from "./pages/Widgets";
-import { NotFound } from "./pages/NotFound";
+import Calls from "./screens/Calls";
+import Dashboard from "./screens/Dashboard";
+import Login from "./screens/Login";
+import LeadProfile from "./screens/Sales/LeadProfile";
+import { Widget } from "./screens/Widgets";
+import { NotFound } from "./screens/NotFound";
 import { Box } from "@mui/system";
 import { CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
-import Signup from "./pages/Login/Signup";
-import AddNote from "./pages/Sales/AddNote";
+import Signup from "./screens/Login/Signup";
+import AddNote from "./screens/Sales/AddNote";
 import { useState, useEffect } from "react";
-import SalesOpen from "./pages/Sales/Open";
+import SalesOpen from "./screens/Sales/Open";
 // import { useLocation } from "react-router-dom";
 
 function App() {

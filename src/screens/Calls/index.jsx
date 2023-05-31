@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useClipboard from "react-use-clipboard";
-import { ReactMic } from "react-mic";
+// import { ReactMic } from "react-mic";
 import axios from "axios";
 import UploadAudio from "./UploadAudio";
 import AudioRecorder from "./AudioRecorder";
@@ -18,7 +18,7 @@ import AudioRecorder from "./AudioRecorder";
 const Your_API_Token = "14b81d0a285c4525b799a1327ebd2ab3";
 
 const Calls = () => {
-  const [selectedTab, setSelectedTab] = useState("call-info");
+  const [selectedTab, setSelectedTab] = useState("record");
   const [textToCopy, setTextToCopy] = useState();
   const [isCopied, setCopied] = useClipboard(textToCopy, {
     successDuration: 1000,

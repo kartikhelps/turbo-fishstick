@@ -17,6 +17,7 @@ import {
 } from "recharts";
 
 import { blue } from "@mui/material/colors";
+// import data1 from "./sampleData";
 import data1 from "./sampleData";
 
 const chartFluid = {
