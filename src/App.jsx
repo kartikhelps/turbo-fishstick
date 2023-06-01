@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-import Calls from "./screens/Calls";
 import Dashboard from "./screens/Dashboard";
 import Login from "./screens/Login";
 import LeadProfile from "./screens/Sales/LeadProfile";
