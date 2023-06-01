@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -12,14 +12,8 @@ import {
   TextField,
   Button,
   Checkbox,
-  FormControl,
-  FormLabel,
   FormControlLabel,
-  Radio,
-  RadioGroup,
 } from "@mui/material";
-
-import SignupForm from "./SignupForm";
 
 function Signup({ setSection, vars }) {
   const host = "http://localhost:5000/api/users";
@@ -29,7 +23,7 @@ function Signup({ setSection, vars }) {
   const avatarStyle = { backgroundColor: "#1bbd7e" };
   const marginTop = { marginTop: 5 };
 
-  const [credentals, setCredentals] = useState({
+  const [credentials, setCredentials] = useState({
     name: "",
     email: "",
     password: "",
@@ -38,7 +32,7 @@ function Signup({ setSection, vars }) {
 
   const onChangeValue = (event) => {
     const { name, value } = event.target;
-    setCredentals((prevCredentials) => ({
+    setCredentials((prevCredentials) => ({
       ...prevCredentials,
       [name]: value,
     }));
@@ -48,36 +42,33 @@ function Signup({ setSection, vars }) {
     e.preventDefault();
     try {
       const response = await axios.post(host, {
-        name: credentals.name,
-        email: credentals.email,
-        password: credentals.password,
-        cpassword: credentals.cpassword,
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+        cpassword: credentials.cpassword,
       });
-  
+
       const json = response.data;
       console.log(json);
-  
+
       if (json.success) {
         localStorage.setItem("token", json.authtoken);
         navigate("/login");
-        console.log("user registered", "success");
+        console.log("User registered successfully");
       } else {
         navigate("/login");
-        console.log("email already exists");
+        console.log("Email already exists");
       }
     } catch (error) {
       console.log("Error occurred:", error);
     }
   };
-  
 
   return (
-    <>
-      {/* <SignupForm vars={vars} setSection={setSection}/> */}
-      <Grid container justifyContent="center">
-        <Paper elevation={20} sx={paperStyle}>
-          <Grid container direction="column" alignItems="center">
-            <Avatar sx={avatarStyle}></Avatar>
+    <Grid container justifyContent="center">
+      <Paper elevation={20} sx={paperStyle}>
+        <Grid container direction="row" alignItems="center" spacing={2}>
+          <Grid item xs={12}>
             <Typography variant="h5" component="h2" sx={headerStyle}>
               Sign Up
             </Typography>
@@ -85,47 +76,77 @@ function Signup({ setSection, vars }) {
               Please fill this form to create an account!
             </Typography>
           </Grid>
-          <form>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              placeholder="Enter your name"
+              onChange={onChangeValue}
+              value={credentials.name}
+              name="name"
+            />
+          </Grid>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Email"
               placeholder="Enter your email"
               onChange={onChangeValue}
-              value={credentals.email}
-              name="email" // Add the name attribute here
+              value={credentials.email}
+              name="email"
             />
+          </Grid>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Password"
               placeholder="Enter your password"
               onChange={onChangeValue}
-              value={credentals.password}
+              value={credentials.password}
               name="password"
               type="password"
             />
+          </Grid>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Confirm Password"
               placeholder="Confirm your password"
+              onChange={onChangeValue}
+              value={credentials.cpassword}
+              name="cpassword"
               type="password"
             />
+          </Grid>
+          <Grid item xs={12}>
             <FormControlLabel
               control={<Checkbox name="checkedA" />}
               label="I accept the terms and conditions."
             />
-
+          </Grid>
+          <Grid item xs={12}>
             <Button
               type="submit"
               variant="contained"
               color="primary"
               onClick={handleSubmit}
+              fullWidth
             >
               Sign up
             </Button>
-          </form>
-        </Paper>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Grid container item xs={6} justifyContent="center">
+        <Box display="flex" justifyContent="center">
+          <img
+            src="login/girl.svg"
+            alt="Girl"
+            style={{ width: "60%", height: "auto" }}
+          />
+        </Box>
       </Grid>
-    </>
+    </Grid>
   );
 }
 
