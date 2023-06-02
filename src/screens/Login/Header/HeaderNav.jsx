@@ -15,10 +15,10 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 
 
-const pages = [   "Signin" ,   "Signup" ,  ];
+const pages = ["Signin", "Signup",];
 
 
-function ResponsiveAppBar({setSection,vars}) {
+function ResponsiveAppBar({ setSection, vars }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,28 +37,28 @@ function ResponsiveAppBar({setSection,vars}) {
     setAnchorElUser(null);
   };
 
-  const  SigninChange=() =>{
+  const SigninChange = () => {
 
 
-     setSection((prev)=>({...prev, "SigninState":true,"VerificationState":false,"SignupState":false }))
+    setSection((prev) => ({ ...prev, "SigninState": true, "VerificationState": false, "SignupState": false }))
   }
-  const  SignupChange=() =>{
+  const SignupChange = () => {
 
 
-     setSection((prev)=>({...prev, "SigninState":false,"VerificationState":false,"SignupState":true }))
+    setSection((prev) => ({ ...prev, "SigninState": false, "VerificationState": false, "SignupState": true }))
   }
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={ { display: { xs: 'none', md: 'flex' }, mr: 1 } } />
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="/"
-            sx={ {
+            sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
@@ -66,12 +66,12 @@ function ResponsiveAppBar({setSection,vars}) {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-            } }
+            }}
           >
             LOGO
           </Typography>
 
-          <Box sx={ { flexGrow: 1, display: { xs: 'flex', md: 'none' } } }>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -85,37 +85,37 @@ function ResponsiveAppBar({setSection,vars}) {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={ {
+              anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-              } }
+              }}
               keepMounted
-              transformOrigin={ {
+              transformOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
-              } }
+              }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={ {
+              sx={{
                 display: { xs: 'block', md: 'none' },
-              } }
+              }}
             >
-                <MenuItem key= 'Signin'  onClick={handleCloseNavMenu}>
-                  <Typography onclick= { SigninChange } textAlign="center">Signin</Typography>
-                </MenuItem>
-                <MenuItem key= 'Signup'  onClick={handleCloseNavMenu}>
-                  <Typography onclick= { SignupChange } textAlign="center">Signup</Typography>
-                </MenuItem>
-              
+              <MenuItem key='Signin' onClick={handleCloseNavMenu}>
+                <Typography onclick={SigninChange} textAlign="center">Signin</Typography>
+              </MenuItem>
+              <MenuItem key='Signup' onClick={handleCloseNavMenu}>
+                <Typography onclick={SignupChange} textAlign="center">Signup</Typography>
+              </MenuItem>
+
             </Menu>
           </Box>
-          <AdbIcon sx={ { display: { xs: 'flex', md: 'none' }, mr: 1 } } />
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
             href=""
-            sx={ {
+            sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
@@ -124,25 +124,25 @@ function ResponsiveAppBar({setSection,vars}) {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-            } }
+            }}
           >
             LOGO
           </Typography>
-          <Box sx={ { flexGrow: 1, display: { xs: 'none', md: 'flex' } } }>
-              <Button
-                key='Signin'
-                onClick={ SigninChange }
-                sx={ { my: 2, color: 'white', display: 'block' } }
-              >
-                Signin
-              </Button>
-              <Button
-                key='Signup'
-                onClick={ SignupChange }
-                sx={ { my: 2, color: 'white', display: 'block' } }
-              >
-                Signup
-              </Button>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Button
+              key='Signin'
+              onClick={SigninChange}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Signin
+            </Button>
+            <Button
+              key='Signup'
+              onClick={SignupChange}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Signup
+            </Button>
           </Box>
 
         </Toolbar>

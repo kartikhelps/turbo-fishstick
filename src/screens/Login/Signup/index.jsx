@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+
 import {
   Paper,
   Avatar,
@@ -14,13 +15,14 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import { Height } from "@mui/icons-material";
 
 function Signup({ setSection, vars }) {
   const host = "http://localhost:5000/api/users";
   const navigate = useNavigate();
-  const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
+  const paperStyle = { padding: "30px 20px", width: { xs: 300, sm: 400, md: 400, lg: 400, xl: 400 }, margin: "auto " };
   const headerStyle = { margin: 0 };
-  const avatarStyle = { backgroundColor: "#1bbd7e" };
+  const avatarStyle = { width: { xs: 100, sm: 200, md: 300, lg: 400, xl: 500 }, maxHeight: 400, height: "auto" };
   const marginTop = { marginTop: 5 };
 
   const [credentials, setCredentials] = useState({
@@ -65,7 +67,7 @@ function Signup({ setSection, vars }) {
   };
 
   return (
-    <Grid container justifyContent="center">
+    <Grid container justifyContent="center" textAlign="center" style={{ minHeight: "100vh", margin: "1rem" }}>
       <Paper elevation={20} sx={paperStyle}>
         <Grid container direction="row" alignItems="center" spacing={2}>
           <Grid item xs={12}>
@@ -138,15 +140,16 @@ function Signup({ setSection, vars }) {
         </Grid>
       </Paper>
       <Grid container item xs={6} justifyContent="center">
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" alignItems="center">
           <img
             src="login/girl.svg"
             alt="Girl"
-            style={{ width: "60%", height: "auto" }}
+            style={{ maxWidth: "100%", height: "auto" }}
+
           />
         </Box>
       </Grid>
-    </Grid>
+    </ Grid>
   );
 }
 

@@ -34,7 +34,7 @@ function App() {
     <>
       <Box>
         <CssBaseline />
-        <div style={{ margin: "0 0 0 9rem" }}>
+        <div style={{ margin: "0 0 0 0" }}>
           <Router>
             {val && <Navbar />}
             <Routes>

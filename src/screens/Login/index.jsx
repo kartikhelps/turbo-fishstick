@@ -16,6 +16,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import { CenterFocusStrong } from "@mui/icons-material";
+import "../../screens/style.css"
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -62,19 +63,23 @@ const Login = () => {
       container
       alignItems="center"
       justifyContent="center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh", margin: "1rem 0 0 3rem " }}
+
+
     >
-      <Grid item xs={6} sm={8} md={6} lg={4}>
-        <Paper elevation={15}>
-          <Box sx={{ padding: "2rem" }}>
-            <Grid container spacing={2}>
+      <Grid item xs={8} sm={6} md={4} lg={4}  >
+        <Paper elevation={15}  >
+          <Box sx={{ padding: "2rem", }} >
+            <Grid container spacing={2} >
               <Grid item xs={12}>
                 <Typography
                   variant="h4"
                   component="div"
                   align="center"
                   color="primary"
-                  sx={{ marginBottom: "1rem" }}
+                  sx={{ marginTop: "auto", }}
+
+
                 >
                   PRODUCT X
                 </Typography>
@@ -141,7 +146,7 @@ const Login = () => {
           </Box>
         </Paper>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={7}>
         <Box display="flex" justifyContent="center">
           <img
             src="login/girl.svg"
@@ -150,7 +155,7 @@ const Login = () => {
           />
         </Box>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 
