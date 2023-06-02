@@ -1,17 +1,10 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import styles from "./index.module.css";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import DealInfo from "./Deal_Info";
 import axios from "axios";
 import { fetchData } from "../../Dashboard";
 import ListRender from "../../../components/ListRender";
-
+import { AuthContext } from "../../../context/AuthContext";
 
 const data = [
   "ABC Corp.",
@@ -56,74 +49,58 @@ function a11yProps(index) {
   };
 }
 function LeadProfile() {
+  const { userData } = useContext(AuthContext);
+
+  // const authToken = userData.authToken
+
+  const [authToken, setAuthToken] = useState("xyz");
+
   const [listData, setlistData] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(0);
+  const [companyData, setCompanyData] = useState(data);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  useEffect(() => {
+    if (userData) {
+      setAuthToken(userData.authToken);
+    }
+  }, [userData]);
 
   useEffect(() => {
     fetchData("http://localhost:5000/api/leads/list", setlistData);
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`localhost:5000/api/sales/list`)
-      .then((response) => setFetchData(response.data))
-      .catch((error) => console.error(error));
+    const fetchData2 = async () => {
+      const url = "http://localhost:5000/api/user_company_masters";
+
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "auth-token": authToken, // Replace with your actual authentication token
+          },
+        });
+        const data = response.data;
+        setCompanyData(data);
+        // Process the data received in the response
+        console.log(data,'check data');
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData2();
   }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  console.log(companyData, "here is kya");
+
   return (
     <div className="main_lead_profile">
-      <div className="sub_main_lead_profile">
-        <div>
-          <Typography variant="h4" fontFamily={"Poppins"} fontWeight={500}>
-            Manage Leads&gt;Lead XYZ -Info{" "}
-          </Typography>
-        </div>
-        <div>
-          <Button
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-            sx={{
-              fontFamily: "Poppins",
-              fontSize: "1.5rem",
-              fontWeight: 500,
-              backgroundColor: "rgba(48, 79, 253, 1)",
-              padding: "1rem",
-              color: "#fff",
-              borderRadius: "1.5rem",
-            }}
-          >
-            Take Action
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-            sx={{ padding: "0 1rem" }}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
-        </div>
-      </div>
       <div className="sub_main_main_lead_profile">
         <div className="sub_main_main_info">
           <div className="sub_main_main_info_info">
@@ -133,11 +110,11 @@ function LeadProfile() {
             <div className="sub_main_main_info_info_text">
               <div>
                 <Typography
-                  fontSize={"3.2rem"}
+                  fontSize={"1.6rem"}
                   fontFamily={"Poppins"}
                   fontWeight={500}
                 >
-                  Lead-XYZ Info
+                  Info
                 </Typography>
               </div>
               <div>
@@ -147,13 +124,9 @@ function LeadProfile() {
                   fontWeight={400}
                   color={"rgba(138, 144, 153, 1)"}
                 >
-                  LEAD ID-12XXXX{" "}
+                  xyz
                 </Typography>
               </div>
-            </div>
-
-            <div>
-              <img src="/sales/edit.svg" />
             </div>
           </div>
           <Divider variant="middle" />
@@ -184,7 +157,7 @@ function LeadProfile() {
                   fontWeight={400}
                   color={"rgba(138, 144, 153, 1)"}
                 >
-                  {data[0]}
+                  {companyData[0]}
                 </Typography>
               </div>
             </div>
@@ -205,7 +178,7 @@ function LeadProfile() {
                   fontWeight={400}
                   color={"rgba(138, 144, 153, 1)"}
                 >
-                  {data[1]}
+                  {companyData[1]}
                 </Typography>
               </div>
             </div>
@@ -226,385 +199,8 @@ function LeadProfile() {
                   fontWeight={400}
                   color={"rgba(138, 144, 153, 1)"}
                 >
-                  {data[2]}
+                  {companyData[2]}
                 </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  SOCIAL MEDIA
-                </Typography>
-              </div>
-              <div>
-                <TwitterIcon />
-                <LinkedInIcon />
-              </div>
-            </div>
-          </div>
-          <Divider variant="middle" />
-          <div className="lead_info">
-            <div>
-              <Typography
-                fontSize={"1.5rem"}
-                fontFamily={"Poppins"}
-                fontWeight={500}
-              >
-                LEAD INFO
-              </Typography>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Stage
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[3]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Status
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[4]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Source
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[5]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Owner(Primary)
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[6]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Owner (Secondary)
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[7]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Created By
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  -
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  Lead Updated By
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[8]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  SOCIAL MEDIA
-                </Typography>
-              </div>
-              <div>
-                <TwitterIcon />
-                <LinkedInIcon />
-              </div>
-            </div>
-          </div>
-          <Divider variant="middle" />
-          <div className="company_info">
-            <div>
-              <Typography
-                fontSize={"1.5rem"}
-                fontFamily={"Poppins"}
-                fontWeight={500}
-              >
-                Primary CLient POC
-              </Typography>
-            </div>
-            <div className="sales_manager_info">
-              <div>
-                <img src="/sales/salesmanager.svg" />
-              </div>
-              <div>
-                <div>
-                  <Typography
-                    fontSize={"1.4rem"}
-                    fontFamily={"Poppins"}
-                    fontWeight={500}
-                  >
-                    Shraddha P.
-                  </Typography>
-                </div>
-                <div>
-                  <Typography
-                    fontSize={"1.2rem"}
-                    fontFamily={"Poppins"}
-                    fontWeight={500}
-                    color={"rgba(138, 144, 153, 1)"}
-                  >
-                    Sales Manager
-                  </Typography>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  WEBSITE LINK
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[1]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  INDUSTRY TYPE
-                </Typography>
-              </div>
-              <div>
-                <Typography
-                  fontSize={"1.5rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={400}
-                  color={"rgba(138, 144, 153, 1)"}
-                >
-                  {data[2]}
-                </Typography>
-              </div>
-            </div>
-            <div>
-              <div>
-                <Typography
-                  fontSize={"1.2rem"}
-                  fontFamily={"Poppins"}
-                  fontWeight={500}
-                >
-                  SOCIAL MEDIA
-                </Typography>
-              </div>
-              <div>
-                <TwitterIcon />
-                <LinkedInIcon />
-              </div>
-            </div>
-          </div>
-          <Divider variant="middle" />
-          <div className="company_info">
-            <div>
-              <Typography
-                fontSize={"1.5rem"}
-                fontFamily={"Poppins"}
-                fontWeight={500}
-              >
-                OTHER CONTACTS
-              </Typography>
-            </div>
-            <div className="other_contact_info">
-              <div className="other_contact_info_info">
-                <div>
-                  <img src="/sales/salesmanager.svg" />
-                </div>
-                <div>
-                  <div>
-                    <Typography
-                      fontSize={"1.4rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                    >
-                      Shraddha P.
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography
-                      fontSize={"1.2rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                      color={"rgba(138, 144, 153, 1)"}
-                    >
-                      Sales Manager
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-
-              <div className="other_contact_info_info">
-                <div>
-                  <img src="/sales/salesmanager.svg" />
-                </div>
-                <div>
-                  <div>
-                    <Typography
-                      fontSize={"1.4rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                    >
-                      Shraddha P.
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography
-                      fontSize={"1.2rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                      color={"rgba(138, 144, 153, 1)"}
-                    >
-                      Sales Manager
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-              <div className="other_contact_info_info">
-                <div>
-                  <img src="/sales/salesmanager.svg" />
-                </div>
-                <div>
-                  <div>
-                    <Typography
-                      fontSize={"1.4rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                    >
-                      Shraddha P.
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography
-                      fontSize={"1.2rem"}
-                      fontFamily={"Poppins"}
-                      fontWeight={500}
-                      color={"rgba(138, 144, 153, 1)"}
-                    >
-                      Sales Manager
-                    </Typography>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -628,36 +224,31 @@ function LeadProfile() {
                   label=" ACTIVITY HISTORY"
                   {...a11yProps(1)}
                 />
-                <Tab
-                  sx={{ margin: "0 7rem" }}
-                  label=" ATTACHMENTS"
-                  {...a11yProps(2)}
-                />
-                <Tab
-                  sx={{ margin: "0 7rem" }}
-                  label="COACHING"
-                  {...a11yProps(3)}
-                />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <DealInfo />
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem,
+              hic!
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <DealInfo />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <DealInfo />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <DealInfo />
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+              ratione soluta debitis!
             </TabPanel>
           </Box>
           <div className="Leads_container">
-          <Typography className="lead_heading" variant="h3" alignContent="center">
-            Leads Data
-          </Typography>
-          <ListRender className="lead_table" type={"listType"} data={listData} setData={setlistData} />
+            <Typography
+              className="lead_heading"
+              variant="h3"
+              alignContent="center"
+            >
+              Leads Data
+            </Typography>
+            <ListRender
+              className="lead_table"
+              type={"listType"}
+              data={listData}
+              setData={setlistData}
+            />
           </div>
         </div>
       </div>

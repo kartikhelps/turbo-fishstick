@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import BarChart from "./Charts/BarCharts";
 import ApexChart from "./Charts/ApexCharts";
 import DoughnutChartX from "./Charts/Donought";
+import ListRender from "../../components/ListRender";
 // import "./CardsTop.css";
 
 export async function fetchData(url, setData) {
@@ -66,7 +67,7 @@ export default function Dashboard() {
     fetchData("http://localhost:5000/api/leads/list", setData3);
   }, []);
 
-  console.log(roles, userData, currentRole, "here is data coming");
+  console.log(userData, "here is data coming");
 
   const findUserRole = (roleIds, rolesData) => {
     if (!roleIds || !rolesData) {
@@ -98,7 +99,7 @@ export default function Dashboard() {
             <CardsTop />
           </Grid>
         </Grid>
-        <div className=" " style={{ padding: "20px" }} />
+        <div style={{ padding: "20px" }} />
         <Grid
           container
           xs={12}
@@ -121,6 +122,10 @@ export default function Dashboard() {
             <ApexChart />
           </Grid>
         </Grid>
+        <Typography variant="h4">
+          all users 
+        </Typography>
+        <ListRender data={data2} setData={setData2} />
       </Container>
     </>
   );
