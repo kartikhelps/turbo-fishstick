@@ -20,6 +20,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import axios from "axios";
 import CustomDialog from "./CustomDialog";
 import { useContext } from "react";
+import "../screens/style.css"
 
 
 const ListRender = ({ type, data, setData }) => {
@@ -73,81 +74,87 @@ const ListRender = ({ type, data, setData }) => {
         onClick={() => setAddModal(true)} // Set addModal to true on button click
         variant="contained"
         color="primary"
+        style={{ margin: " 0 0 0 4rem" }}
+
       >
-        Add lead
-      </Button>
-     
+        Add Lead
+      </Button >
+
       {/* Render the CustomDialog for update, delete, and add based on the modalType */}
-      {(modal || delModal || addModal) && ( // Add the condition for addModal
-        <CustomDialog
-          modalType={modal ? "update" : delModal ? "delete" : "add"} // Update the modalType condition
-          setOpenModal={modal ? setModal : delModal ? setDelModal : setAddModal} // Update the setOpenModal condition
-          open={modal || delModal || addModal} // Update the open condition
-          setData={setData}
-          data={data}
-          fields={fieldsName}
-          id={currentId}
-        />
-      )}
-      {data.length > 0 ? (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow className="#">
-                <TableCell align="center">
-                  {type === "img" ? <AttachMoneyIcon /> : "id"}
-                </TableCell>
-                {fieldsName.map((field) => (
-                  <TableCell className="lead-header" key={field} align="center">
-                    {field}
-                  </TableCell>
-                ))}
-                {type !== "img" && (
-                  <TableCell align="center">Actions</TableCell>
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((student, i) => (
-                <TableRow key={i} className="lead-table-contents" >
+      {
+        (modal || delModal || addModal) && ( // Add the condition for addModal
+          <CustomDialog
+            modalType={modal ? "update" : delModal ? "delete" : "add"} // Update the modalType condition
+            setOpenModal={modal ? setModal : delModal ? setDelModal : setAddModal} // Update the setOpenModal condition
+            open={modal || delModal || addModal} // Update the open condition
+            setData={setData}
+            data={data}
+            fields={fieldsName}
+            id={currentId}
+          />
+        )
+      }
+      {
+        data.length > 0 ? (
+          <TableContainer component={Paper} style={{ margin: " 0 0 0 4rem" }}>
+            <Table>
+              <TableHead>
+                <TableRow className="#">
                   <TableCell align="center">
-                    {type === "img" ? (
-                      <AccountCircleIcon fontSize="large" />
-                    ) : (
-                      i + 1
-                    )}
+                    {type === "img" ? <AttachMoneyIcon /> : "id"}
                   </TableCell>
                   {fieldsName.map((field) => (
-                    <TableCell key={`${student._id}-${field}`} align="center">
-                      {student[field]}
+                    <TableCell className="lead-header" key={field} align="center">
+                      {field}
                     </TableCell>
                   ))}
                   {type !== "img" && (
-                    <TableCell align="center">
-                      <Tooltip title="Edit">
-                        <IconButton
-                          onClick={() => handleEditStudent(student._id)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Delete">
-                        <IconButton
-                          onClick={() => handleDeleteStudent(student._id)}
-                        >
-                          <DeleteIcon color="secondary" />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
+                    <TableCell align="center">Actions</TableCell>
                   )}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <Typography>No data found</Typography>
-      )}
+              </TableHead>
+              <TableBody>
+                {data.map((student, i) => (
+                  <TableRow key={i} className="lead-table-contents" >
+                    <TableCell align="center">
+                      {type === "img" ? (
+                        <AccountCircleIcon fontSize="large" />
+                      ) : (
+                        i + 1
+                      )}
+                    </TableCell>
+                    {fieldsName.map((field) => (
+                      <TableCell key={`${student._id}-${field}`} align="center">
+                        {student[field]}
+                      </TableCell>
+                    ))}
+                    {type !== "img" && (
+                      <TableCell align="center">
+                        <Tooltip title="Edit">
+                          <IconButton
+                            onClick={() => handleEditStudent(student._id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <IconButton
+                            onClick={() => handleDeleteStudent(student._id)}
+                          >
+                            <DeleteIcon color="secondary" />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Typography style={{ margin: "4rem 0 2rem 4rem" }}>No data found</Typography>
+        )
+      }
     </>
   );
 };

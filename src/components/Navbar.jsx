@@ -250,7 +250,7 @@ const Navbar = () => {
             component='div'
             sx={{
               flexGrow: 1,
-              display: { xs: "none", sm: "block" },
+              display: { xs: "flex" },
               fontFamily: "Poppins",
               fontSize: "1.6rem",
               color: "#000",
@@ -259,16 +259,16 @@ const Navbar = () => {
           >
             PRODUCT X
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon sx={{ color: "#000" }} />
+          <Search style={{ width: "50px" }} >
+            <SearchIconWrapper >
+              <SearchIcon sx={{ color: "#000", }} />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder='Search…'
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex" } }}>
             <IconButton
               size='large'
               aria-label='show 1 new notifications'

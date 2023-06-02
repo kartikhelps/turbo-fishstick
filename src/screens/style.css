@@ -1,0 +1,6 @@
+@media only screen and (max-width: 900px) {
+    .DashboardUserTypo {
+        margin-left: 200px;
+        background-color: aqua;
+    }
+}
